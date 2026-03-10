@@ -105,8 +105,7 @@ def format_issue(rec: dict, show_full_text: bool = True) -> str:
 
 # ── Commands ──────────────────────────────────────────────────────────────────
 
-def cmd_read_date(records: list[dict], date: str, paper: str | None,
-                  full: bool, output: str | None) -> None:
+def cmd_read_date(records, date, paper, full, output) -> None:
     """Read all newspaper issues for a specific date."""
 
     # Filter by date
@@ -160,7 +159,7 @@ def cmd_read_date(records: list[dict], date: str, paper: str | None,
         print(f"\nSaved to: {output}")
 
 
-def cmd_list_dates(records: list[dict], year: str | None) -> None:
+def cmd_list_dates(records, year) -> None:
     """List all available dates in the dataset."""
 
     # Group by year → month → dates

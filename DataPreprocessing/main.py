@@ -2,10 +2,10 @@
 BPL Ingestion Pipeline - Main Entry Point
 BU Spark Student Team
 ──────────────────────────────────────────
-Runs Phase 1 and/or Phase 2 based on command line arguments.
+Runs Phase 1, Phase 2, and/or split-by-day based on command line arguments.
 
 Usage:
-  # Run full pipeline (Phase 1 → Phase 2)
+  # Run full pipeline (Phase 1 → Phase 2 → split by day)
   python main.py
 
   # Run only Phase 1 (fetch IDs)
@@ -14,6 +14,9 @@ Usage:
   # Run only Phase 2 (fetch text)
   python main.py --phase 2
 
+  # Run only split by day
+  python main.py --phase 3
+
   # Use a different config file
   python main.py --config my_config.yaml
 
@@ -21,13 +24,13 @@ Usage:
   python main.py --test
 """
 
+
 import argparse
 import logging
 import yaml
 from pathlib import Path
 
-import phase1_fetch_ids
-import phase2_fetch_text
+from pipeline import run_phase1 as phase1, run_phase2 as phase2, run_split_by_day as split_by_day
 
 # ── Logging ───────────────────────────────────────────────────────────────────
 
@@ -51,9 +54,9 @@ def main():
     parser.add_argument(
         "--phase",
         type=int,
-        choices=[1, 2],
+        choices=[1, 2, 3],
         default=None,
-        help="Run only phase 1 or phase 2 (default: run both)"
+        help="Run only phase 1, 2, or 3 (default: run all)"
     )
     parser.add_argument(
         "--test",
@@ -96,14 +99,19 @@ def main():
     # Run phases
     run_phase1 = args.phase in (None, 1)
     run_phase2 = args.phase in (None, 2)
+    run_phase3 = args.phase in (None, 3)
 
     if run_phase1:
         log.info("\n>>> Starting Phase 1: Fetch Record IDs <<<\n")
-        phase1_fetch_ids.run(config_path)
+        phase1(config_path)
 
     if run_phase2:
         log.info("\n>>> Starting Phase 2: Fetch Text + Metadata <<<\n")
-        phase2_fetch_text.run(config_path)
+        phase2(config_path)
+
+    if run_phase3:
+        log.info("\n>>> Starting Phase 3: Split by Day <<<\n")
+        split_by_day(config_path)
 
     log.info("\n>>> Pipeline finished <<<")
 

@@ -58,7 +58,7 @@ def load_json(path: str):
 
 # ── Checkpoint helpers ────────────────────────────────────────────────────────
 
-def load_checkpoint(checkpoint_file: str) -> set[str]:
+def load_checkpoint(checkpoint_file: str):
     data = load_json(checkpoint_file)
     if data:
         processed = set(data.get("processed_ids", []))
@@ -66,7 +66,7 @@ def load_checkpoint(checkpoint_file: str) -> set[str]:
         return processed
     return set()
 
-def save_checkpoint(checkpoint_file: str, processed_ids: set[str]) -> None:
+def save_checkpoint(checkpoint_file: str, processed_ids) -> None:
     save_json(checkpoint_file, {
         "processed_ids": list(processed_ids),
         "saved_at":      datetime.now(timezone.utc).isoformat(),
@@ -76,7 +76,7 @@ def save_checkpoint(checkpoint_file: str, processed_ids: set[str]) -> None:
 
 # ── Per-year file helpers ────────────────────────────────────────────────────
 
-def flush_year_buffers(year_buffers: dict[int, list[dict]], output_dir: Path) -> int:
+def flush_year_buffers(year_buffers, output_dir: Path) -> int:
     """Append buffered records to per-year JSON files and return count flushed."""
     flushed = 0
     for year, new_records in year_buffers.items():
@@ -96,7 +96,7 @@ def flush_year_buffers(year_buffers: dict[int, list[dict]], output_dir: Path) ->
             "records":      records,
         })
         flushed += len(new_records)
-        log.info(f"    Year {year}: +{len(new_records)} records (total {len(records)})")
+        log.info(f"    {year}.json: +{len(new_records)} records (total {len(records)})")
     return flushed
 
 def extract_year(record: dict) -> int:
@@ -111,13 +111,16 @@ def extract_year(record: dict) -> int:
 
 # ── HTTP helper ───────────────────────────────────────────────────────────────
 
+# Shared session for connection pooling (reuses TCP connections)
+_session = requests.Session()
+
 def get_with_retry(url: str, retry_cfg: dict, is_text=False):
     max_retries = retry_cfg.get("max_retries", 5)
     backoff     = retry_cfg.get("backoff", [2, 5, 10, 30, 60])
 
     for attempt in range(max_retries):
         try:
-            resp = requests.get(url, timeout=20)
+            resp = _session.get(url, timeout=20)
             if is_text and resp.status_code == 404:
                 return None
             resp.raise_for_status()
@@ -157,7 +160,7 @@ def clean_text(raw: str) -> str:
 BASE_URL = "https://www.digitalcommonwealth.org"
 ARK_BASE = "https://ark.digitalcommonwealth.org/ark:/50959"
 
-def process_one(entry: dict, retry_cfg: dict) -> dict | None:
+def process_one(entry: dict, retry_cfg: dict):
     """
     For one record entry {id, newspaper, collection}:
       1. Fetch full metadata -> /search/commonwealth:id.json
@@ -182,6 +185,9 @@ def process_one(entry: dict, retry_cfg: dict) -> dict | None:
     # Check transcription flag
     if not attrs.get("has_transcription_bsi", False):
         return None
+
+    # Small delay between the two API calls to reduce 503s
+    time.sleep(0.5)
 
     # 2. OCR text
     text_resp = get_with_retry(
@@ -244,47 +250,66 @@ def run(config_path: str) -> None:
     perf            = cfg.get("performance", {})
     output_cfg      = cfg.get("output", {})
 
-    max_workers      = perf.get("max_workers", 5)
+    max_workers      = perf.get("max_workers", 4)
     checkpoint_every = perf.get("checkpoint_every", 100)
-    ids_file         = output_cfg.get("ids_file", "bpl_ids.json")
-    checkpoint_file  = output_cfg.get("checkpoint_file", "bpl_checkpoint.json")
+    ids_filename     = output_cfg.get("ids_file", "bpl_ids.json")
+    checkpoint_name  = output_cfg.get("checkpoint_file", "bpl_checkpoint.json")
     dataset_file     = output_cfg.get("dataset_file", "bpl_clean_dataset.json")
 
-    # Derive output directory from dataset_file name
-    # e.g. "bpl_clean_dataset.json" -> "bpl_clean_dataset/"
-    output_dir = Path(dataset_file).stem
-    output_dir = Path(output_dir)
+    # Root output directory
+    output_dir = Path(Path(dataset_file).stem)
     output_dir.mkdir(parents=True, exist_ok=True)
 
     log.info("=" * 60)
     log.info("Phase 2: Fetch Full Text + Metadata")
-    log.info(f"  Input      : {ids_file}")
-    log.info(f"  Checkpoint : {checkpoint_file}")
-    log.info(f"  Output dir : {output_dir}/  (per-year JSON files)")
-    log.info(f"  Workers    : {max_workers}")
+    log.info(f"  Output root : {output_dir}/")
+    log.info(f"  Workers     : {max_workers}")
     log.info("=" * 60)
 
-    # Load IDs from Phase 1
-    ids_data = load_json(ids_file)
-    if not ids_data:
-        log.error(f"'{ids_file}' not found. Run Phase 1 first.")
+    # Discover collection folders created by Phase 1
+    collection_dirs = sorted([
+        d for d in output_dir.iterdir()
+        if d.is_dir() and (d / ids_filename).exists()
+    ])
+
+    if not collection_dirs:
+        log.error(f"No collection folders with '{ids_filename}' found in {output_dir}/. Run Phase 1 first.")
         return
 
-    all_entries = ids_data.get("records", [])
-    log.info(f"Total records from Phase 1 : {len(all_entries)}")
+    # Process each collection folder
+    for coll_dir in collection_dirs:
+        ids_file        = coll_dir / ids_filename
+        checkpoint_dir  = coll_dir / "temp"
+        checkpoint_dir.mkdir(parents=True, exist_ok=True)
+        checkpoint_file = checkpoint_dir / checkpoint_name
 
-    # Load checkpoint (resume support) - only processed IDs
-    processed_ids = load_checkpoint(checkpoint_file)
+        log.info("-" * 60)
+        log.info(f"Collection : {coll_dir.name}")
+        log.info(f"  IDs file   : {ids_file}")
+        log.info(f"  Checkpoint : {checkpoint_file}")
 
-    # Filter to unprocessed only
-    todo = [e for e in all_entries if e["id"] not in processed_ids]
+        # Load IDs from Phase 1
+        ids_data = load_json(str(ids_file))
+        if not ids_data:
+            log.error(f"  Cannot read '{ids_file}'. Skipping.")
+            continue
 
-    log.info(f"Already processed : {len(processed_ids)}")
-    log.info(f"Remaining         : {len(todo)}")
+        all_entries = ids_data.get("records", [])
+        log.info(f"  Total records : {len(all_entries)}")
 
-    if not todo:
-        log.info("All records already processed!")
-    else:
+        # Load checkpoint (resume support)
+        processed_ids = load_checkpoint(str(checkpoint_file))
+
+        # Filter to unprocessed only
+        todo = [e for e in all_entries if e["id"] not in processed_ids]
+
+        log.info(f"  Already processed : {len(processed_ids)}")
+        log.info(f"  Remaining         : {len(todo)}")
+
+        if not todo:
+            log.info("  All records already processed!")
+            continue
+
         start        = time.time()
         skipped      = 0
         total_saved  = 0
@@ -311,16 +336,16 @@ def run(config_path: str) -> None:
                 else:
                     skipped += 1
 
-                # Rolling checkpoint: flush year buffers + save processed IDs
+                # Rolling checkpoint
                 if pending_save >= checkpoint_every:
-                    log.info(f"  Flushing {sum(len(v) for v in year_buffers.values())} records to year files ...")
-                    flush_year_buffers(year_buffers, output_dir)
+                    log.info(f"  Flushing {sum(len(v) for v in year_buffers.values())} records ...")
+                    flush_year_buffers(year_buffers, coll_dir)
                     year_buffers.clear()
-                    save_checkpoint(checkpoint_file, processed_ids)
+                    save_checkpoint(str(checkpoint_file), processed_ids)
                     pending_save = 0
 
-                # Progress log
-                if i % 50 == 0 or i == len(todo):
+                # Progress log every 10 records
+                if i % 10 == 0 or i == len(todo):
                     elapsed  = time.time() - start
                     rate     = i / elapsed if elapsed > 0 else 0
                     eta_mins = (len(todo) - i) / rate / 60 if rate > 0 else 0
@@ -333,16 +358,19 @@ def run(config_path: str) -> None:
         # Final flush
         if year_buffers:
             log.info(f"  Final flush: {sum(len(v) for v in year_buffers.values())} records ...")
-            flush_year_buffers(year_buffers, output_dir)
+            flush_year_buffers(year_buffers, coll_dir)
             year_buffers.clear()
-        save_checkpoint(checkpoint_file, processed_ids)
+        save_checkpoint(str(checkpoint_file), processed_ids)
         elapsed_mins = (time.time() - start) / 60
-        log.info(f"Text fetch done in {elapsed_mins:.1f} min.")
+        log.info(f"  Done in {elapsed_mins:.1f} min.")
 
-    # Summary: count totals across year files
-    year_files = sorted(output_dir.glob("*.json"))
+    # Summary across all collections
     grand_total = 0
-    for yf in year_files:
+    all_year_files = sorted(output_dir.glob("*/*.json"))
+    # Exclude ids files and temp/ files
+    all_year_files = [f for f in all_year_files if f.parent.name != "temp" and f.name != ids_filename]
+
+    for yf in all_year_files:
         data = load_json(str(yf))
         if data:
             grand_total += data.get("total", 0)
@@ -350,11 +378,10 @@ def run(config_path: str) -> None:
     log.info("=" * 60)
     log.info(f"Phase 2 complete.")
     log.info(f"  Total records saved : {grand_total}")
-    log.info(f"  Year files          : {len(year_files)} files in {output_dir}/")
-    for yf in year_files:
+    for yf in all_year_files:
         data = load_json(str(yf))
         if data:
-            log.info(f"    {yf.name}: {data.get('total', 0)} records")
+            log.info(f"    {yf.parent.name}/{yf.name}: {data.get('total', 0)} records")
     log.info("=" * 60)
 
 # ── Entry point ───────────────────────────────────────────────────────────────

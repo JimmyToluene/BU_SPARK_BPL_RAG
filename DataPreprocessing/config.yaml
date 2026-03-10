@@ -1,12 +1,15 @@
+
 # ─────────────────────────────────────────────────────────────
 # BPL Newspaper Ingestion Config
 # BU Spark Student Team
 # ─────────────────────────────────────────────────────────────
 
 # ── Scope ─────────────────────────────────────────────────────
+# NOTE: Digital Commonwealth API only supports year-level filtering.
+# Only the year portion (first 4 chars) is used.
 scope:
-  date_start: "1900-01-01"   # ← fix this
-  date_end:   "1946-12-31"
+  date_start: "1940"
+  date_end:   "1940"
 # ── Target Newspaper Collections ──────────────────────────────
 # Each entry defines one newspaper title and its sub-collections
 # as provided by Eben (BPL)
@@ -28,10 +31,16 @@ newspapers:
         url: "https://www.digitalcommonwealth.org/search.json?f%5Bcollection_name_ssim%5D%5B%5D=Boston+Evening+Transcript&f%5Binstitution_name_ssi%5D%5B%5D=Boston+Public+Library&sort=date_start_dtsi+asc%2C+title_info_primary_ssort+asc"
 
 # ── Output Paths ───────────────────────────────────────────────
+# Folder structure:
+#   bpl_clean_dataset/{Title}_{Collection}/
+#     bpl_ids.json          <- Phase 1 IDs
+#     {year}.json           <- Phase 2 data
+#     temp/
+#       bpl_checkpoint.json <- Phase 2 checkpoint
 output:
-  ids_file:         "bpl_ids.json"           # Phase 1 output
-  checkpoint_file:  "bpl_checkpoint.json"    # Phase 2 rolling checkpoint
-  dataset_file:     "bpl_clean_dataset.json" # Phase 2 final output
+  ids_file:         "bpl_ids.json"           # filename for Phase 1 IDs (per collection)
+  checkpoint_file:  "bpl_checkpoint.json"    # filename for Phase 2 checkpoint (in temp/)
+  dataset_file:     "bpl_clean_dataset.json" # stem used as root output folder name
 
 # ── Performance ────────────────────────────────────────────────
 performance:

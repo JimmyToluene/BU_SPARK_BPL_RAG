@@ -12,6 +12,7 @@ Usage:
   python phase1_fetch_ids.py --config config.yaml
 """
 
+import sys
 import requests
 import json
 import time
@@ -75,16 +76,17 @@ def get_with_retry(url: str, retry_cfg: dict):
 def build_date_filter(base_url: str, date_start: str, date_end: str) -> str:
     """
     Append date range filter to a collection URL.
-    Uses Solr range query format supported by Digital Commonwealth.
-    e.g. &range[date_start_dtsi][begin]=1900-01-01T00:00:00Z
-         &range[date_start_dtsi][end]=1946-12-31T23:59:59Z
+    Uses the date_facet_yearly_itim field which Digital Commonwealth
+    actually supports for range filtering (date_start_dtsi is ignored).
+    e.g. &range[date_facet_yearly_itim][begin]=1900
+         &range[date_facet_yearly_itim][end]=1946
     """
-    start_iso = f"{date_start}T00:00:00Z"
-    end_iso   = f"{date_end}T23:59:59Z"
+    start_year = date_start[:4]
+    end_year   = date_end[:4]
     return (
         f"{base_url}"
-        f"&range%5Bdate_start_dtsi%5D%5Bbegin%5D={start_iso}"
-        f"&range%5Bdate_start_dtsi%5D%5Bend%5D={end_iso}"
+        f"&range%5Bdate_facet_yearly_itim%5D%5Bbegin%5D={start_year}"
+        f"&range%5Bdate_facet_yearly_itim%5D%5Bend%5D={end_year}"
     )
 
 # ── Fetch one collection ──────────────────────────────────────────────────────
@@ -96,7 +98,7 @@ def fetch_collection_ids(
     date_end: str,
     retry_cfg: dict,
     request_delay: float,
-    max_pages: int | None,
+    max_pages,
 ) -> list[str]:
     """
     Paginate through a collection and return all record IDs
@@ -129,6 +131,9 @@ def fetch_collection_ids(
 
         if page == 1:
             log.info(f"    Records in range: {total}")
+            if total == 0 or not docs:
+                log.warning(f"    No records found for '{name}' in range {date_start} → {date_end}")
+                return []
 
         if not docs:
             break
@@ -148,6 +153,10 @@ def fetch_collection_ids(
 
 # ── Main ──────────────────────────────────────────────────────────────────────
 
+def make_folder_name(newspaper: str, collection: str) -> str:
+    """Build a safe folder name like 'Boston_Evening_Transcript_Boston_Evening_Transcript'."""
+    return f"{newspaper}_{collection}".replace(" ", "_")
+
 def run(config_path: str) -> None:
     cfg = load_config(config_path)
 
@@ -160,29 +169,36 @@ def run(config_path: str) -> None:
 
     request_delay = perf.get("request_delay", 0.3)
     max_pages     = perf.get("max_pages", None)
-    ids_file      = output_cfg.get("ids_file", "bpl_ids.json")
+    ids_filename  = output_cfg.get("ids_file", "bpl_ids.json")
+    dataset_file  = output_cfg.get("dataset_file", "bpl_clean_dataset.json")
+    output_dir    = Path(Path(dataset_file).stem)
 
     log.info("=" * 60)
     log.info("Phase 1: Fetch Record IDs")
-    log.info(f"  Date range : {date_start} → {date_end}")
-    log.info(f"  Output     : {ids_file}")
+    log.info(f"  Date range  : {date_start} → {date_end}")
+    log.info(f"  Output root : {output_dir}/")
     log.info("=" * 60)
 
-    # Check if already done
-    if Path(ids_file).exists():
-        existing = json.loads(Path(ids_file).read_text())
-        log.info(f"'{ids_file}' already exists with {len(existing)} IDs.")
-        log.info("Delete it to re-run Phase 1. Exiting.")
-        return
-
-    seen    = set()
-    all_ids = []
+    grand_total = 0
 
     for newspaper in cfg["newspapers"]:
         paper_title = newspaper["title"]
         log.info(f"\nNewspaper: {paper_title}")
 
         for collection in newspaper["collections"]:
+            folder = make_folder_name(paper_title, collection["name"])
+            collection_dir = output_dir / folder
+            collection_dir.mkdir(parents=True, exist_ok=True)
+            ids_file = collection_dir / ids_filename
+
+            # Check if already done for this collection
+            if ids_file.exists():
+                existing = json.loads(ids_file.read_text())
+                count = existing.get("total", 0)
+                log.info(f"  '{ids_file}' already exists with {count} IDs. Skipping.")
+                grand_total += count
+                continue
+
             ids = fetch_collection_ids(
                 name          = collection["name"],
                 base_url      = collection["url"],
@@ -193,37 +209,55 @@ def run(config_path: str) -> None:
                 max_pages     = max_pages,
             )
 
-            added = 0
+            seen = set()
+            unique_ids = []
             for rid in ids:
                 if rid not in seen:
                     seen.add(rid)
-                    all_ids.append({
+                    unique_ids.append({
                         "id":         rid,
                         "newspaper":  paper_title,
                         "collection": collection["name"],
                     })
-                    added += 1
 
-            log.info(f"    → {added} unique IDs added")
+            log.info(f"    → {len(unique_ids)} unique IDs")
 
-    # Save output
-    output = {
-        "generated_at": datetime.now(timezone.utc).isoformat(),
-        "date_start":   date_start,
-        "date_end":     date_end,
-        "total":        len(all_ids),
-        "records":      all_ids,
-    }
+            # Check if any records were found
+            is_single_year = (date_start[:4] == date_end[:4])
+            if not unique_ids:
+                if is_single_year:
+                    log.error(
+                        f"No records found for year {date_start[:4]}. "
+                        f"This dataset is not available from the API."
+                    )
+                    sys.exit(1)
+                else:
+                    log.warning(
+                        f"No records found in range {date_start} → {date_end}. "
+                        f"Continuing."
+                    )
+                    continue
 
-    Path(ids_file).write_text(
-        json.dumps(output, indent=2, ensure_ascii=False),
-        encoding="utf-8"
-    )
+            # Save per-collection ids file
+            output = {
+                "generated_at": datetime.now(timezone.utc).isoformat(),
+                "date_start":   date_start,
+                "date_end":     date_end,
+                "newspaper":    paper_title,
+                "collection":   collection["name"],
+                "total":        len(unique_ids),
+                "records":      unique_ids,
+            }
+            ids_file.write_text(
+                json.dumps(output, indent=2, ensure_ascii=False),
+                encoding="utf-8"
+            )
+            log.info(f"    Saved to: {ids_file}")
+            grand_total += len(unique_ids)
 
     log.info("=" * 60)
     log.info(f"Phase 1 complete.")
-    log.info(f"  Total unique IDs : {len(all_ids)}")
-    log.info(f"  Saved to         : {ids_file}")
+    log.info(f"  Total unique IDs : {grand_total}")
     log.info("=" * 60)
 
 # ── Entry point ───────────────────────────────────────────────────────────────
