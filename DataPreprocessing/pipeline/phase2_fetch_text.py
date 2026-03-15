@@ -155,6 +155,42 @@ def clean_text(raw: str) -> str:
     text = re.sub(r"[^\w\s.,!?;:'\"\-\u2013\u2014()]", "", text)  # remove junk
     return text.strip()
 
+# Replace before stripping — preserve meaning
+REPLACEMENTS = {
+    '|':  'I',
+    '¦':  'I',
+    '©':  'o',
+    '°':  'o',
+    'ſ':  's',
+    '∫':  's',
+    '\x00': '',
+}
+
+def clean_text_alt(raw: str) -> str:
+    text = raw
+
+    # 1. Known character replacements first
+    for bad, good in REPLACEMENTS.items():
+        text = text.replace(bad, good)
+
+    # 2. Rejoin hyphenated line breaks
+    text = re.sub(r"(\w)-\s*\n\s*(\w)", r"\1\2", text)
+
+    # 3. Preserve paragraph breaks, collapse other whitespace
+    text = re.sub(r"\n{3,}", "\n\n", text)       # max 2 newlines
+    text = re.sub(r"[ \t]+", " ", text)           # collapse spaces/tabs only
+    text = re.sub(r" *\n *", "\n", text)          # clean spaces around newlines
+
+    # 4. Fix spacing around punctuation
+    text = re.sub(r"\s([.,;:!?])", r"\1", text)  # remove space before punctuation
+    text = re.sub(r"\(\s+", "(", text)
+    text = re.sub(r"\s+\)", ")", text)
+
+    # 5. Now strip remaining junk (after replacements)
+    text = re.sub(r"[^\w\s.,!?;:'\"\-\u2013\u2014()]", "", text)
+
+    return text.strip()
+
 # ── Process one record ────────────────────────────────────────────────────────
 
 BASE_URL = "https://www.digitalcommonwealth.org"
@@ -198,8 +234,13 @@ def process_one(entry: dict, retry_cfg: dict):
     if text_resp is None:
         return None
 
-    cleaned = clean_text(text_resp.text)
-    if len(cleaned) < 50:
+    # cleaned = clean_text(text_resp.text)
+    raw_text = text_resp.text
+    # cleaned_alt = clean_text_alt(text_resp.text)
+
+    # cleaned = text_resp.text
+
+    if len(raw_text) < 50:
         return None
 
     # 3. Build structured record with correct field names
@@ -234,8 +275,10 @@ def process_one(entry: dict, retry_cfg: dict):
         "geography":     attrs.get("subject_geographic_ssim", []),
 
         # Content
-        "clean_text":    cleaned,
-        "char_count":    len(cleaned),
+        # "clean_text":    cleaned,
+        # "clean_text_alt": cleaned_alt,
+        "raw_text": raw_text,
+        "char_count":    len(raw_text),
 
         # Tracking
         "ingested_at":   datetime.now(timezone.utc).isoformat(),
