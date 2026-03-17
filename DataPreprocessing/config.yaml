@@ -8,27 +8,27 @@
 # NOTE: Digital Commonwealth API only supports year-level filtering.
 # Only the year portion (first 4 chars) is used.
 scope:
-  date_start: "1940"
-  date_end:   "1940"
+  date_start: "1900"
+  date_end:   "1947"
 # ── Target Newspaper Collections ──────────────────────────────
 # Each entry defines one newspaper title and its sub-collections
 # as provided by Eben (BPL)
 newspapers:
- #  - title: "Boston Traveler"
- #   collections:
- #     - name: "Boston Daily Traveller"
- #       url: "https://www.digitalcommonwealth.org/search.json?f%5Bcollection_name_ssim%5D%5B%5D=Boston+Daily+Traveller&f%5Binstitution_name_ssi%5D%5B%5D=Boston+Public+Library&sort=date_start_dtsi+asc%2C+title_info_primary_ssort+asc"
- #     - name: "The Boston Traveler"
- #       url: "https://www.digitalcommonwealth.org/search.json?f%5Bcollection_name_ssim%5D%5B%5D=The+Boston+Traveler&f%5Binstitution_name_ssi%5D%5B%5D=Boston+Public+Library&sort=date_start_dtsi+asc%2C+title_info_primary_ssort+asc"
- #     - name: "Boston Traveler and Evening Herald"
- #       url: "https://www.digitalcommonwealth.org/search.json?f%5Bcollection_name_ssim%5D%5B%5D=Boston+Traveler+and+Evening+Herald&f%5Binstitution_name_ssi%5D%5B%5D=Boston+Public+Library&sort=date_start_dtsi+asc%2C+title_info_primary_ssort+asc"
- #     - name: "Boston Evening Traveller"
- #       url: "https://www.digitalcommonwealth.org/search.json?f%5Bcollection_name_ssim%5D%5B%5D=Boston+Evening+Traveller&f%5Binstitution_name_ssi%5D%5B%5D=Boston+Public+Library&sort=date_start_dtsi+asc%2C+title_info_primary_ssort+asc"
-
-  - title: "Boston Evening Transcript"
+  - title: "Boston Traveler"
     collections:
-      - name: "Boston Evening Transcript"
-        url: "https://www.digitalcommonwealth.org/search.json?f%5Bcollection_name_ssim%5D%5B%5D=Boston+Evening+Transcript&f%5Binstitution_name_ssi%5D%5B%5D=Boston+Public+Library&sort=date_start_dtsi+asc%2C+title_info_primary_ssort+asc"
+    #  - name: "Boston Daily Traveller"
+    #    url: "https://www.digitalcommonwealth.org/search.json?f%5Bcollection_name_ssim%5D%5B%5D=Boston+Daily+Traveller&f%5Binstitution_name_ssi%5D%5B%5D=Boston+Public+Library&sort=date_start_dtsi+asc%2C+title_info_primary_ssort+asc"
+     - name: "The Boston Traveler"
+       url: "https://www.digitalcommonwealth.org/search.json?f%5Bcollection_name_ssim%5D%5B%5D=The+Boston+Traveler&f%5Binstitution_name_ssi%5D%5B%5D=Boston+Public+Library&sort=date_start_dtsi+asc%2C+title_info_primary_ssort+asc"
+    #  - name: "Boston Traveler and Evening Herald"
+    #    url: "https://www.digitalcommonwealth.org/search.json?f%5Bcollection_name_ssim%5D%5B%5D=Boston+Traveler+and+Evening+Herald&f%5Binstitution_name_ssi%5D%5B%5D=Boston+Public+Library&sort=date_start_dtsi+asc%2C+title_info_primary_ssort+asc"
+    #  - name: "Boston Evening Traveller"
+    #    url: "https://www.digitalcommonwealth.org/search.json?f%5Bcollection_name_ssim%5D%5B%5D=Boston+Evening+Traveller&f%5Binstitution_name_ssi%5D%5B%5D=Boston+Public+Library&sort=date_start_dtsi+asc%2C+title_info_primary_ssort+asc"
+
+  # - title: "Boston Evening Transcript"
+  #   collections:
+  #     - name: "Boston Evening Transcript"
+  #       url: "https://www.digitalcommonwealth.org/search.json?f%5Bcollection_name_ssim%5D%5B%5D=Boston+Evening+Transcript&f%5Binstitution_name_ssi%5D%5B%5D=Boston+Public+Library&sort=date_start_dtsi+asc%2C+title_info_primary_ssort+asc"
 
 # ── Output Paths ───────────────────────────────────────────────
 # Folder structure:
