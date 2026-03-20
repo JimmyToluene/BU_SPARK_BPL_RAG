@@ -8,8 +8,8 @@
 # NOTE: Digital Commonwealth API only supports year-level filtering.
 # Only the year portion (first 4 chars) is used.
 scope:
-  date_start: "1900"
-  date_end:   "1947"
+  date_start: "1930"
+  date_end:   "1930"
 # ── Target Newspaper Collections ──────────────────────────────
 # Each entry defines one newspaper title and its sub-collections
 # as provided by Eben (BPL)
