@@ -1,0 +1,205 @@
+
+# ─────────────────────────────────────────────────────────────
+# War-Period Pseudo Ground Truth — Pipeline Config
+# BU Spark Student Team
+# ─────────────────────────────────────────────────────────────
+# Fetches BPL newspaper data for WWI & WWII, downloads original
+# IIIF page images, runs dots.ocr VLM OCR, and generates Q&A.
+# ─────────────────────────────────────────────────────────────
+
+# ── War periods ──────────────────────────────────────────────
+war_periods:
+  wwi:
+    label: "World War I"
+    years: [1914, 1915, 1916, 1917, 1918]
+  wwii:
+    label: "World War II"
+    years: [1939, 1940, 1941, 1942, 1943, 1944, 1945]
+
+# ── Newspaper collections ────────────────────────────────────
+newspapers:
+  - title: "Boston Evening Transcript"
+    collections:
+      - name: "Boston Evening Transcript"
+        url: "https://www.digitalcommonwealth.org/search.json?f%5Bcollection_name_ssim%5D%5B%5D=Boston+Evening+Transcript&f%5Binstitution_name_ssi%5D%5B%5D=Boston+Public+Library&sort=date_start_dtsi+asc%2C+title_info_primary_ssort+asc"
+
+# ── API endpoints ────────────────────────────────────────────
+api:
+  base_url:  "https://www.digitalcommonwealth.org"
+  ark_base:  "https://ark.digitalcommonwealth.org/ark:/50959"
+  iiif_base: "https://iiif.digitalcommonwealth.org/iiif/2"
+
+# ── Output paths ─────────────────────────────────────────────
+output:
+  data_dir:    "war_period_data"        # root for all intermediate data
+  ids_subdir:  "ids"                    # per-year ID files
+  records_subdir: "records"             # per-year metadata + text
+  pages_subdir:   "pages"              # downloaded IIIF images
+  ocr_subdir:     "ocr_dots"           # dots.ocr VLM OCR text
+  articles_subdir: "articles"          # extracted war-related segments
+  qa_output:   "war_period_qa.jsonl"   # final Q&A pairs
+  checkpoint:  "checkpoint.json"       # resume state
+
+# ── Performance ──────────────────────────────────────────────
+performance:
+  request_delay:    1.5       # seconds between API calls
+  max_workers:      4         # parallel threads for fetching
+  checkpoint_every: 50        # save checkpoint every N records
+  max_pages_per_issue: null   # null = all pages, or int to limit (testing)
+
+  # Sampling — set to null for full dataset, or int for quick testing
+  sample_per_year: null       # e.g. 5 = only fetch 5 records per year
+
+# ── Retry ────────────────────────────────────────────────────
+retry:
+  max_retries: 5
+  backoff: [2, 5, 10, 30, 60]
+
+# ── IIIF image settings ─────────────────────────────────────
+iiif:
+  image_width: 1500          # px — higher = better OCR, slower download
+  image_format: "default.jpg"
+  timeout: 30                # seconds per image download
+
+# ── dots.ocr settings ───────────────────────────────────────
+# VLM-based OCR (rednote-hilab/dots.ocr) — replaces Tesseract
+# + Tier 1/2/3 cleaning with a single end-to-end model.
+#
+# Two modes:
+#   vllm  — call a running vLLM server (recommended for batch)
+#            Start server first:
+#              vllm serve rednote-hilab/dots.ocr.1.5-3B \
+#                --dtype bfloat16 --max-model-len 8192
+#   transformers — load model in-process (simpler, slower)
+#
+dots_ocr:
+  mode: "vllm"                           # "vllm" or "transformers"
+  model: "rednote-hilab/dots.ocr.1.5-3B"
+  vllm_base_url: "http://localhost:8000/v1"
+  prompt: "<ocr>"                         # text-only extraction
+  # prompt: "<layout_all_en>"             # full layout + text (richer)
+  max_tokens: 8192                        # newspaper pages are text-heavy
+  timeout: 120                            # seconds per page inference
+
+# ── War keyword lists for article extraction ─────────────────
+# Articles scored by keyword density; top segments become GT sources.
+war_keywords:
+  wwi:
+    - "war"
+    - "european war"
+    - "great war"
+    - "world war"
+    - "kaiser"
+    - "wilhelm"
+    - "germany"
+    - "german"
+    - "austria"
+    - "allies"
+    - "allied"
+    - "entente"
+    - "france"
+    - "french"
+    - "belgium"
+    - "belgian"
+    - "britain"
+    - "british"
+    - "trenches"
+    - "western front"
+    - "eastern front"
+    - "submarine"
+    - "u-boat"
+    - "lusitania"
+    - "armistice"
+    - "peace"
+    - "treaty"
+    - "versailles"
+    - "draft"
+    - "conscription"
+    - "selective service"
+    - "military"
+    - "army"
+    - "navy"
+    - "soldiers"
+    - "troops"
+    - "regiment"
+    - "casualty"
+    - "casualties"
+    - "killed"
+    - "wounded"
+    - "liberty bonds"
+    - "war bonds"
+    - "wilson"
+    - "congress"
+    - "declaration of war"
+    - "neutral"
+    - "neutrality"
+    - "battle"
+    - "offensive"
+    - "munitions"
+    - "artillery"
+    - "red cross"
+  wwii:
+    - "war"
+    - "world war"
+    - "second world war"
+    - "hitler"
+    - "nazi"
+    - "fascist"
+    - "axis"
+    - "japan"
+    - "japanese"
+    - "pearl harbor"
+    - "allies"
+    - "allied"
+    - "britain"
+    - "british"
+    - "france"
+    - "french"
+    - "russia"
+    - "soviet"
+    - "invasion"
+    - "normandy"
+    - "d-day"
+    - "bombing"
+    - "blitz"
+    - "air raid"
+    - "pacific"
+    - "atlantic"
+    - "draft"
+    - "selective service"
+    - "military"
+    - "army"
+    - "navy"
+    - "marines"
+    - "soldiers"
+    - "troops"
+    - "casualty"
+    - "casualties"
+    - "killed"
+    - "wounded"
+    - "rationing"
+    - "ration"
+    - "war bonds"
+    - "roosevelt"
+    - "churchill"
+    - "stalin"
+    - "surrender"
+    - "victory"
+    - "v-e day"
+    - "v-j day"
+    - "concentration camp"
+    - "holocaust"
+    - "atomic"
+    - "hiroshima"
+    - "nagasaki"
+    - "battle"
+    - "offensive"
+    - "convoy"
+    - "torpedo"
+    - "red cross"
+
+# ── LLM settings (for Q&A generation step) ──────────────────
+llm:
+  model: "gpt-4o"
+  max_tokens: 1200
+  temperature: 0.2

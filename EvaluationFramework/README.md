@@ -1,140 +1,123 @@
-# BPL RAG Evaluation Framework — PseudoGT Generation
+# BPL RAG Evaluation Framework
 
-Generates **pseudo ground truth (pseudoGT)** answers and relevant document IDs for test queries, using the OpenAI API and the BPL cleaned newspaper dataset.
+Builds **war-period pseudo ground truth** Q&A pairs from Boston Public Library newspaper archives (1914-1918, 1939-1945) for RAG evaluation.
 
-Part of the **BU Spark x Boston Public Library** RAG project covering WW1 (1914–1918) and WW2 (1941–1945) newspaper archives.
+Uses **dots.ocr** (3B VLM) for layout-aware OCR on historical newspaper scans, replacing the legacy Tesseract + multi-tier cleaning chain.
 
-## Requirements
+## Setup
 
-- Python 3.9+
-- `pip install openai pyyaml`
+```bash
+pip install requests pyyaml Pillow openai
+```
+
+**For Step 4 (dots.ocr)** -- pick one mode:
+
+```bash
+# Option A: vLLM server (recommended, needs CUDA GPU)
+pip install vllm
+vllm serve rednote-hilab/dots.ocr.1.5-3B --dtype bfloat16 --max-model-len 8192
+
+# Option B: In-process transformers
+pip install transformers torch accelerate
+```
+
+**For Step 6 (LLM Q&A generation):**
+```bash
+export OPENAI_API_KEY="sk-..."
+```
 
 ## Quick Start
 
 ```bash
 cd EvaluationFramework
 
-# Set your OpenAI API key
-export OPENAI_API_KEY="your-key-here"
-
-# Edit config.yaml to set your paths and model
-# Then run:
-python main.py
-```
-
-## Configuration (`config.yaml`)
-
-```yaml
-paths:
-  dataset:  "../DataPreprocessing/bpl_clean_dataset.jsonl"
-  queries:  "ww1_ww2_test_queries.jsonl"
-  output:   "ww1_ww2_test_queries_gt.jsonl"
-
-llm:
-  model:        "gpt-4o"       # gpt-4o for quality, gpt-4o-mini for cost
-  max_tokens:   1000
-  temperature:  0.2
-
-retriever:
-  max_records:         5       # top-K records per query
-  text_preview_chars:  5000    # chars searched per record
-  excerpt_chars:       2000    # chars sent to LLM per record
-```
-
-All config values can be overridden via CLI flags:
-
-```bash
-python main.py --queries test_queries.jsonl --output test_queries_gt.jsonl --model gpt-4o-mini
-```
-
-## Pipeline Components
-
-| Module | What it does |
-|--------|-------------|
-| `pipeline/dataset_loader.py` | Load cleaned newspaper dataset from JSONL |
-| `pipeline/query_loader.py` | Load/save test queries and output results (JSONL) |
-| `pipeline/retriever.py` | Keyword-based search to find relevant records for a query |
-| `pipeline/prompt_builder.py` | Build system and user prompts for the LLM |
-| `pipeline/llm_client.py` | OpenAI API wrapper (create client, call model, parse JSON) |
-| `pipeline/generator.py` | Orchestrate the full generation loop |
-| `main.py` | CLI entry point with config loading |
-
-## Usage Examples
-
-```bash
-# Generate pseudoGT for WW1/WW2 queries (default config)
+# Full pipeline (all 7 steps, both war periods)
 python main.py
 
-# Generate pseudoGT for the general test queries
-python main.py --queries test_queries.jsonl --output test_queries_gt.jsonl
+# Quick test: 5 records/year, skip image download + OCR
+python main.py --sample 5 --steps 1 2 5 6 7
 
-# Use gpt-4o-mini for cheaper testing (~10x less cost)
-python main.py --model gpt-4o-mini
+# WWII only
+python main.py --period wwii
 
-# Use a custom config file
-python main.py --config my_config.yaml
+# Just fetch data (no GPU needed)
+python main.py --steps 1 2
 ```
 
-## Input Format
+## Pipeline Steps
 
-Each line in the queries JSONL file:
+| Step | File | What it does |
+|------|------|-------------|
+| 1 | `step1_fetch_ids.py` | Fetch record IDs per year from Digital Commonwealth API |
+| 2 | `step2_fetch_metadata.py` | Fetch metadata + API OCR text (parallel, checkpointed) |
+| 3 | `step3_download_pages.py` | Download newspaper page images via IIIF manifests |
+| 4 | `step4_dots_ocr.py` | Run dots.ocr VLM for layout-aware OCR |
+| 5 | `step5_extract_articles.py` | Clean text, score segments by war-keyword density |
+| 6 | `step6_generate_qa.py` | Generate Q&A pairs (GPT-4o or template fallback) |
+| 7 | `step7_export.py` | Deduplicate, export final JSONL + summary |
 
-```json
-{
-  "question": "What did Boston newspapers report about the attack on Pearl Harbor?",
-  "question_type": "explanatory",
-  "ground_truths": null,
-  "answer": null,
-  "notes": "pseudoGT_needed"
-}
-```
-
-## Output Format
-
-Each line in the output JSONL file:
-
-```json
-{
-  "question": "What did Boston newspapers report about the attack on Pearl Harbor?",
-  "question_type": "explanatory",
-  "ground_truths": [
-    {"title": "Boston Traveler, December 8 1941", "ark_id": "commonwealth:abc123"}
-  ],
-  "answer": "Based on the December 8 1941 edition of the Boston Traveler...",
-  "confidence": "high",
-  "notes": "pseudoGT | generated from actual newspaper text",
-  "generated_at": "2026-04-07T00:00:00Z"
-}
-```
-
-## Resume Support
-
-The pipeline saves after **every query**. If interrupted, re-run the same command and it will skip already-processed queries automatically. Queries that already have `ground_truths` in the input are passed through unchanged.
-
-## Cost Estimate
-
-```
-30 queries x ~1,500 input + ~300 output tokens = ~54,000 tokens total
-
-gpt-4o      : ~$0.54
-gpt-4o-mini : ~$0.05  <- recommended for testing
-```
+Steps 1-2 need only `requests`. Steps 3-4 need a GPU. Steps 5-7 work on whatever OCR text is available (dots.ocr or API fallback).
 
 ## Project Structure
 
 ```
 EvaluationFramework/
-  main.py                        # Entry point
-  config.yaml                    # Configuration
+  main.py                     # CLI entry point
+  war_period_config.yaml      # Pipeline configuration
   pipeline/
-    __init__.py                  # Package exports
-    dataset_loader.py            # Load newspaper dataset
-    query_loader.py              # Load/save queries & results
-    retriever.py                 # Keyword-based record retrieval
-    prompt_builder.py            # System & user prompt construction
-    llm_client.py                # OpenAI API wrapper
-    generator.py                 # Generation orchestration loop
-  test_queries.jsonl             # 38 general test queries
-  ww1_ww2_test_queries.jsonl     # 30 WW1/WW2 queries (input)
-  CLAUDE_CODE_PSEUDOGT.md        # Task specification
+    __init__.py               # Step registry
+    shared.py                 # Utilities, HTTP, checkpoint, text cleaning
+    step1_fetch_ids.py        # Step 1
+    step2_fetch_metadata.py   # Step 2
+    step3_download_pages.py   # Step 3
+    step4_dots_ocr.py         # Step 4 (dots.ocr)
+    step5_extract_articles.py # Step 5
+    step6_generate_qa.py      # Step 6
+    step7_export.py           # Step 7
+  test_queries.jsonl          # 38 general test queries (reference)
+  eda_test_queries.py         # EDA script for test queries
+  archive/                    # Legacy pipeline (pre-dots.ocr)
 ```
+
+## Output
+
+```
+war_period_data/
+  ids/                        # Per-year record ID files
+  records/                    # Per-year metadata + API OCR text
+  pages/                      # Downloaded IIIF page images
+  ocr_dots/                   # dots.ocr output text
+  articles/                   # Extracted war-related segments
+  war_period_qa.jsonl         # Raw Q&A pairs
+  war_period_qa_final.jsonl   # Deduplicated final dataset
+  summary.txt                 # Human-readable summary
+```
+
+Each Q&A pair:
+```json
+{
+  "question": "What did the Boston Evening Transcript report about the war on April 15, 1917?",
+  "question_type": "explanatory",
+  "ground_truths": [{"title": "Boston Evening Transcript, April 15, 1917", "ark_id": "commonwealth:abc123"}],
+  "answer": "Based on the Boston Evening Transcript from April 15, 1917: ...",
+  "confidence": "high",
+  "period": "wwi"
+}
+```
+
+## Configuration
+
+See `war_period_config.yaml` for all options:
+
+| Section | Key settings |
+|---------|-------------|
+| `war_periods` | Year ranges for WWI and WWII |
+| `newspapers` | Collection URLs for Digital Commonwealth API |
+| `dots_ocr` | Mode (`vllm`/`transformers`), model, prompt, vLLM URL |
+| `performance` | Workers, delay, checkpoint frequency, `sample_per_year` |
+| `war_keywords` | Keyword lists for article extraction scoring |
+| `llm` | GPT model for Q&A generation |
+
+## Resume Support
+
+Every step is resumable. Checkpoints track processed record IDs (step 2), `.done` markers track downloaded issues (step 3), existing OCR files are skipped (step 4), and existing Q&A ark_ids prevent duplicates (step 6).
