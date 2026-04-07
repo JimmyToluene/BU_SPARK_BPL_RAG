@@ -20,40 +20,18 @@ Usage:
     )
 """
 
-import re
 import json
 import numpy as np
 from pathlib import Path
 from jiwer import cer, wer
-from wordfreq import zipf_frequency
 
-
-# ─────────────────────────────────────────────────────────────
-# Historical Whitelist (for OOV rate)
-# ─────────────────────────────────────────────────────────────
-
-HISTORICAL_WHITELIST = {
-    "ye", "thee", "thou", "thy", "thine",
-    "hath", "doth", "hast", "wilt", "shalt",
-    "mayst", "wouldst", "couldst", "shouldst", "mightst",
-    "art", "wert", "hadst",
-    "hither", "thither", "whither", "wherein", "whereof",
-    "thereof", "hereof", "hereby", "therein",
-    "methinks", "perchance", "haply", "belike", "forsooth",
-    "nay", "aye", "yea", "verily", "prithee", "pray",
-    "forthwith", "heretofore", "henceforth", "notwithstanding",
-    "publick", "musick", "logick", "ethick", "rhetorick",
-    "connexion", "inflexion", "reflexion", "compleat",
-    "shew", "shewed", "shewn", "staid", "spake", "writ",
-    "honour", "colour", "labour", "neighbour", "favour",
-    "centre", "theatre", "fibre", "lustre", "sceptre",
-    "recognise", "organise", "realise", "civilise",
-    "defence", "offence", "pretence", "licence",
-    "esq", "viz", "ibid", "idem", "supra", "infra",
-    "aforesaid", "aforementioned", "heretofore",
-    "whereas", "whereby", "whereupon", "whereunto",
-    "mr", "mrs", "dr", "sr", "jr", "rev", "hon", "gen",
-}
+from .metrics import (
+    character_anomaly_rate,
+    composite_score,
+    non_alpha_token_rate,
+    oov_rate,
+    short_token_rate,
+)
 
 
 # ─────────────────────────────────────────────────────────────
@@ -74,91 +52,6 @@ def word_error_rate(hypothesis: str, reference: str) -> float:
     Lower is better. 0.0 = perfect match.
     """
     return round(wer(reference, hypothesis), 4)
-
-
-# ─────────────────────────────────────────────────────────────
-# Unsupervised Metrics (no ground truth needed)
-# ─────────────────────────────────────────────────────────────
-
-JUNK_CHARS  = re.compile(r"[|¦©°∫¬§±×÷¤¨¸˜]")
-PUNCT_ONLY  = re.compile(r"^[.,;:!?\-\"'()]+$")
-REAL_SHORT_WORDS = {
-    "a", "i", "o",
-    "an", "as", "at", "be", "by", "do", "go", "he", "if",
-    "in", "is", "it", "me", "my", "no", "of", "on", "or",
-    "so", "to", "up", "us", "we",
-    "mr", "dr", "st", "vs",
-}
-
-
-def character_anomaly_rate(text: str) -> float:
-    """Fraction of characters that are known OCR junk symbols."""
-    if not text:
-        return 0.0
-    return round(len(JUNK_CHARS.findall(text)) / len(text), 4)
-
-
-def non_alpha_token_rate(text: str) -> float:
-    """Fraction of tokens containing no letters."""
-    tokens = text.split()
-    if not tokens:
-        return 0.0
-    candidates = [t for t in tokens if not PUNCT_ONLY.match(t)]
-    if not candidates:
-        return 0.0
-    non_alpha = sum(1 for t in candidates if not re.search(r"[a-zA-Z]", t))
-    return round(non_alpha / len(candidates), 4)
-
-
-def short_token_rate(text: str) -> float:
-    """Fraction of 1-2 char fragments that are not real short words."""
-    tokens = [t for t in text.split() if re.search(r"[a-zA-Z]", t)]
-    if not tokens:
-        return 0.0
-    short = sum(
-        1 for t in tokens
-        if len(re.sub(r"[^a-zA-Z]", "", t)) <= 2
-        and re.sub(r"[^a-zA-Z]", "", t).lower() not in REAL_SHORT_WORDS
-    )
-    return round(short / len(tokens), 4)
-
-
-def oov_rate(text: str, wordlist: set = None) -> float:
-    """
-    Fraction of tokens not in the reference wordlist.
-    Uses historical whitelist + BLN600 wordlist + lowered zipf threshold
-    to avoid penalising valid archaic vocabulary.
-    """
-    words = text.split()
-    if not words:
-        return 0.0
-
-    reference = HISTORICAL_WHITELIST.copy()
-    if wordlist:
-        reference.update(wordlist)
-
-    def is_known(word: str) -> bool:
-        cleaned = re.sub(r"^[^a-zA-Z]+|[^a-zA-Z]+$", "", word).lower()
-        if not cleaned or len(cleaned) <= 2:
-            return True
-        if cleaned in reference:
-            return True
-        if cleaned[0].isupper():
-            return True   # skip proper nouns
-        return zipf_frequency(cleaned, "en") > 1.5
-
-    oov = sum(1 for w in words if not is_known(w))
-    return round(oov / len(words), 4)
-
-
-def composite_score(
-    char_anomaly: float,
-    non_alpha: float,
-    short_tok: float,
-) -> float:
-    """Single 0-1 quality score. Higher = cleaner."""
-    noise = 0.40 * char_anomaly + 0.35 * non_alpha + 0.25 * short_tok
-    return round(max(0.0, min(1.0, 1.0 - noise)), 4)
 
 
 # ─────────────────────────────────────────────────────────────

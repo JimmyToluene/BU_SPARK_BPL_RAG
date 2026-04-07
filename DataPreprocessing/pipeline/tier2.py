@@ -1,65 +1,10 @@
 import re
-from pathlib import Path
 from spellchecker import SpellChecker
 from wordfreq import zipf_frequency
+
+from .constants import HISTORICAL_WHITELIST
 from .tier1 import tier1_clean
-
-HISTORICAL_WHITELIST = {
-    "ye", "thee", "thou", "thy", "thine",
-    "hath", "doth", "hast", "wilt", "shalt",
-    "mayst", "wouldst", "couldst", "shouldst", "mightst",
-    "art", "wert", "hadst",
-    "hither", "thither", "whither", "wherein", "whereof",
-    "thereof", "hereof", "hereby", "therein",
-    "methinks", "perchance", "haply", "belike", "forsooth",
-    "nay", "aye", "yea", "verily", "prithee", "pray",
-    "forthwith", "heretofore", "henceforth", "notwithstanding",
-    "publick", "musick", "logick", "ethick", "rhetorick",
-    "connexion", "inflexion", "reflexion", "compleat",
-    "shew", "shewed", "shewn", "staid", "spake", "writ",
-    "honour", "colour", "labour", "neighbour", "favour",
-    "centre", "theatre", "fibre", "lustre", "sceptre",
-    "recognise", "organise", "realise", "civilise",
-    "defence", "offence", "pretence", "licence",
-    "esq", "viz", "ibid", "idem", "supra", "infra",
-    "aforesaid", "aforementioned", "heretofore",
-    "whereas", "whereby", "whereupon", "whereunto",
-    "mr", "mrs", "dr", "sr", "jr", "rev", "hon", "gen",
-}
-
-
-def build_bln600_wordlist(bln600_root: str) -> set:
-    """
-    Build a historical wordlist from BLN600 ground truth files.
-    Uses ground truth only — OCR text would pollute the wordlist with noise.
-
-    Args:
-        bln600_root: Path to the root BLN600 directory.
-
-    Returns:
-        Set of lowercase words found in the ground truth corpus.
-    """
-    root = Path(bln600_root)
-    gt_dir = root / "Ground Truth"
-
-    if not gt_dir.exists():
-        raise FileNotFoundError(f"Ground Truth directory not found at {gt_dir}")
-
-    wordlist = set()
-    files_loaded = 0
-
-    for filepath in gt_dir.iterdir():
-        if filepath.suffix.lower() == ".txt":
-            try:
-                text = filepath.read_text(encoding="utf-8", errors="replace")
-                words = re.findall(r"[a-zA-Z]+", text)
-                wordlist.update(w.lower() for w in words if len(w) > 2)
-                files_loaded += 1
-            except Exception as e:
-                print(f"  Warning: could not read {filepath.name} — {e}")
-
-    print(f"BLN600 wordlist built from {files_loaded} ground truth files — {len(wordlist):,} unique words")
-    return wordlist
+from .utils import build_bln600_wordset
 
 
 def tier2_clean(

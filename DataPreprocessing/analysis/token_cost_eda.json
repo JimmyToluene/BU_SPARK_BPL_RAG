@@ -1,0 +1,1700 @@
+{
+  "summary": {
+    "num_collections": 2,
+    "num_years_sampled": 104,
+    "total_pages_in_sampled_issues": 2026,
+    "total_tokens_in_sampled_issues": 13376665,
+    "tokens_per_page": {
+      "mean": 7600.0,
+      "median": 7330.5,
+      "p5": 4061.5,
+      "p25": 5610.9,
+      "p75": 9578.9,
+      "p95": 11680.8,
+      "min": 1289.1,
+      "max": 13251.4
+    },
+    "encoding": "word_estimate_x1.3",
+    "seed": 42
+  },
+  "cost_estimates": {
+    "text-embedding-3-small": {
+      "price_per_1M_tokens_usd": 0.02,
+      "est_cost_per_page_usd": 0.000152,
+      "est_cost_per_1000_pages_usd": 0.152,
+      "est_cost_per_10000_pages_usd": 1.52
+    },
+    "text-embedding-3-large": {
+      "price_per_1M_tokens_usd": 0.13,
+      "est_cost_per_page_usd": 0.000988,
+      "est_cost_per_1000_pages_usd": 0.988,
+      "est_cost_per_10000_pages_usd": 9.88
+    }
+  },
+  "samples": [
+    {
+      "collection": "Boston_Evening_Transcript",
+      "year": 1854,
+      "issue_date": "March 10, 1854",
+      "date_iso": [
+        "1854-03-10"
+      ],
+      "ark_id": "wd37b030f",
+      "page_count": 5,
+      "char_count_actual": 204403,
+      "word_count": 35739,
+      "total_tokens": 46460,
+      "tokens_per_page": 9292.0,
+      "chars_per_page": 40880.6,
+      "words_per_page": 7147.8
+    },
+    {
+      "collection": "Boston_Evening_Transcript",
+      "year": 1855,
+      "issue_date": "January 13, 1855",
+      "date_iso": [
+        "1855-01-13"
+      ],
+      "ark_id": "cf95pf974",
+      "page_count": 5,
+      "char_count_actual": 249543,
+      "word_count": 48386,
+      "total_tokens": 62901,
+      "tokens_per_page": 12580.2,
+      "chars_per_page": 49908.6,
+      "words_per_page": 9677.2
+    },
+    {
+      "collection": "Boston_Evening_Transcript",
+      "year": 1856,
+      "issue_date": "June 14, 1856",
+      "date_iso": [
+        "1856-06-14"
+      ],
+      "ark_id": "sn00g352w",
+      "page_count": 5,
+      "char_count_actual": 260848,
+      "word_count": 46339,
+      "total_tokens": 60240,
+      "tokens_per_page": 12048.0,
+      "chars_per_page": 52169.6,
+      "words_per_page": 9267.8
+    },
+    {
+      "collection": "Boston_Evening_Transcript",
+      "year": 1857,
+      "issue_date": "May 21, 1857",
+      "date_iso": [
+        "1857-05-21"
+      ],
+      "ark_id": "pz50n045r",
+      "page_count": 5,
+      "char_count_actual": 271472,
+      "word_count": 50967,
+      "total_tokens": 66257,
+      "tokens_per_page": 13251.4,
+      "chars_per_page": 54294.4,
+      "words_per_page": 10193.4
+    },
+    {
+      "collection": "Boston_Evening_Transcript",
+      "year": 1858,
+      "issue_date": "May 18, 1858",
+      "date_iso": [
+        "1858-05-18"
+      ],
+      "ark_id": "4j03j4873",
+      "page_count": 5,
+      "char_count_actual": 251090,
+      "word_count": 44050,
+      "total_tokens": 57265,
+      "tokens_per_page": 11453.0,
+      "chars_per_page": 50218.0,
+      "words_per_page": 8810.0
+    },
+    {
+      "collection": "Boston_Evening_Transcript",
+      "year": 1859,
+      "issue_date": "March 28, 1859",
+      "date_iso": [
+        "1859-03-28"
+      ],
+      "ark_id": "gh93n296c",
+      "page_count": 5,
+      "char_count_actual": 243665,
+      "word_count": 42436,
+      "total_tokens": 55166,
+      "tokens_per_page": 11033.2,
+      "chars_per_page": 48733.0,
+      "words_per_page": 8487.2
+    },
+    {
+      "collection": "Boston_Evening_Transcript",
+      "year": 1860,
+      "issue_date": "March 05, 1860",
+      "date_iso": [
+        "1860-03-05"
+      ],
+      "ark_id": "b5648z753",
+      "page_count": 5,
+      "char_count_actual": 245399,
+      "word_count": 43168,
+      "total_tokens": 56118,
+      "tokens_per_page": 11223.6,
+      "chars_per_page": 49079.8,
+      "words_per_page": 8633.6
+    },
+    {
+      "collection": "Boston_Evening_Transcript",
+      "year": 1861,
+      "issue_date": "December 02, 1861",
+      "date_iso": [
+        "1861-12-02"
+      ],
+      "ark_id": "f7627h934",
+      "page_count": 5,
+      "char_count_actual": 198459,
+      "word_count": 34670,
+      "total_tokens": 45071,
+      "tokens_per_page": 9014.2,
+      "chars_per_page": 39691.8,
+      "words_per_page": 6934.0
+    },
+    {
+      "collection": "Boston_Evening_Transcript",
+      "year": 1862,
+      "issue_date": "February 22, 1862",
+      "date_iso": [
+        "1862-02-22"
+      ],
+      "ark_id": "0g358m266",
+      "page_count": 5,
+      "char_count_actual": 231640,
+      "word_count": 40933,
+      "total_tokens": 53212,
+      "tokens_per_page": 10642.4,
+      "chars_per_page": 46328.0,
+      "words_per_page": 8186.6
+    },
+    {
+      "collection": "Boston_Evening_Transcript",
+      "year": 1863,
+      "issue_date": "December 28, 1863",
+      "date_iso": [
+        "1863-12-28"
+      ],
+      "ark_id": "w0896d69d",
+      "page_count": 5,
+      "char_count_actual": 228108,
+      "word_count": 40798,
+      "total_tokens": 53037,
+      "tokens_per_page": 10607.4,
+      "chars_per_page": 45621.6,
+      "words_per_page": 8159.6
+    },
+    {
+      "collection": "Boston_Evening_Transcript",
+      "year": 1864,
+      "issue_date": "September 15, 1864",
+      "date_iso": [
+        "1864-09-15"
+      ],
+      "ark_id": "8w32w989d",
+      "page_count": 5,
+      "char_count_actual": 229698,
+      "word_count": 40570,
+      "total_tokens": 52741,
+      "tokens_per_page": 10548.2,
+      "chars_per_page": 45939.6,
+      "words_per_page": 8114.0
+    },
+    {
+      "collection": "Boston_Evening_Transcript",
+      "year": 1865,
+      "issue_date": "January 21, 1865",
+      "date_iso": [
+        "1865-01-21"
+      ],
+      "ark_id": "gx41rq108",
+      "page_count": 5,
+      "char_count_actual": 226223,
+      "word_count": 39724,
+      "total_tokens": 51641,
+      "tokens_per_page": 10328.2,
+      "chars_per_page": 45244.6,
+      "words_per_page": 7944.8
+    },
+    {
+      "collection": "Boston_Evening_Transcript",
+      "year": 1866,
+      "issue_date": "January 09, 1866",
+      "date_iso": [
+        "1866-01-09"
+      ],
+      "ark_id": "3r0792308",
+      "page_count": 5,
+      "char_count_actual": 250882,
+      "word_count": 43823,
+      "total_tokens": 56969,
+      "tokens_per_page": 11393.8,
+      "chars_per_page": 50176.4,
+      "words_per_page": 8764.6
+    },
+    {
+      "collection": "Boston_Evening_Transcript",
+      "year": 1872,
+      "issue_date": "November 18, 1872",
+      "date_iso": [
+        "1872-11-18"
+      ],
+      "ark_id": "02874z73x",
+      "page_count": 5,
+      "char_count_actual": 170260,
+      "word_count": 33340,
+      "total_tokens": 43342,
+      "tokens_per_page": 8668.4,
+      "chars_per_page": 34052.0,
+      "words_per_page": 6668.0
+    },
+    {
+      "collection": "Boston_Evening_Transcript",
+      "year": 1873,
+      "issue_date": "May 14, 1873",
+      "date_iso": [
+        "1873-05-14"
+      ],
+      "ark_id": "nc585379p",
+      "page_count": 9,
+      "char_count_actual": 452287,
+      "word_count": 78370,
+      "total_tokens": 101881,
+      "tokens_per_page": 11320.1,
+      "chars_per_page": 50254.1,
+      "words_per_page": 8707.8
+    },
+    {
+      "collection": "Boston_Evening_Transcript",
+      "year": 1874,
+      "issue_date": "May 25, 1874",
+      "date_iso": [
+        "1874-05-25"
+      ],
+      "ark_id": "0v83dc522",
+      "page_count": 9,
+      "char_count_actual": 467237,
+      "word_count": 81105,
+      "total_tokens": 105436,
+      "tokens_per_page": 11715.1,
+      "chars_per_page": 51915.2,
+      "words_per_page": 9011.7
+    },
+    {
+      "collection": "Boston_Evening_Transcript",
+      "year": 1875,
+      "issue_date": "November 05, 1875",
+      "date_iso": [
+        "1875-11-05"
+      ],
+      "ark_id": "xg94nw59q",
+      "page_count": 9,
+      "char_count_actual": 475891,
+      "word_count": 84618,
+      "total_tokens": 110003,
+      "tokens_per_page": 12222.6,
+      "chars_per_page": 52876.8,
+      "words_per_page": 9402.0
+    },
+    {
+      "collection": "Boston_Evening_Transcript",
+      "year": 1876,
+      "issue_date": "January 17, 1876",
+      "date_iso": [
+        "1876-01-17"
+      ],
+      "ark_id": "kp78mv83t",
+      "page_count": 9,
+      "char_count_actual": 467324,
+      "word_count": 82397,
+      "total_tokens": 107116,
+      "tokens_per_page": 11901.8,
+      "chars_per_page": 51924.9,
+      "words_per_page": 9155.2
+    },
+    {
+      "collection": "Boston_Evening_Transcript",
+      "year": 1877,
+      "issue_date": "December 11, 1877",
+      "date_iso": [
+        "1877-12-11"
+      ],
+      "ark_id": "h415tr60q",
+      "page_count": 9,
+      "char_count_actual": 441737,
+      "word_count": 77013,
+      "total_tokens": 100116,
+      "tokens_per_page": 11124.0,
+      "chars_per_page": 49081.9,
+      "words_per_page": 8557.0
+    },
+    {
+      "collection": "Boston_Evening_Transcript",
+      "year": 1878,
+      "issue_date": "May 04, 1878",
+      "date_iso": [
+        "1878-05-04"
+      ],
+      "ark_id": "v9800h151",
+      "page_count": 9,
+      "char_count_actual": 429885,
+      "word_count": 73956,
+      "total_tokens": 96142,
+      "tokens_per_page": 10682.4,
+      "chars_per_page": 47765.0,
+      "words_per_page": 8217.3
+    },
+    {
+      "collection": "Boston_Evening_Transcript",
+      "year": 1879,
+      "issue_date": "December 05, 1879",
+      "date_iso": [
+        "1879-12-05"
+      ],
+      "ark_id": "qv33xb104",
+      "page_count": 9,
+      "char_count_actual": 453336,
+      "word_count": 79523,
+      "total_tokens": 103379,
+      "tokens_per_page": 11486.6,
+      "chars_per_page": 50370.7,
+      "words_per_page": 8835.9
+    },
+    {
+      "collection": "Boston_Evening_Transcript",
+      "year": 1880,
+      "issue_date": "September 13, 1880",
+      "date_iso": [
+        "1880-09-13"
+      ],
+      "ark_id": "3j338185t",
+      "page_count": 9,
+      "char_count_actual": 449616,
+      "word_count": 77873,
+      "total_tokens": 101234,
+      "tokens_per_page": 11248.2,
+      "chars_per_page": 49957.3,
+      "words_per_page": 8652.6
+    },
+    {
+      "collection": "Boston_Evening_Transcript",
+      "year": 1881,
+      "issue_date": "May 16, 1881",
+      "date_iso": [
+        "1881-05-16"
+      ],
+      "ark_id": "ww72h819n",
+      "page_count": 9,
+      "char_count_actual": 445695,
+      "word_count": 77369,
+      "total_tokens": 100579,
+      "tokens_per_page": 11175.4,
+      "chars_per_page": 49521.7,
+      "words_per_page": 8596.6
+    },
+    {
+      "collection": "Boston_Evening_Transcript",
+      "year": 1882,
+      "issue_date": "October 03, 1882",
+      "date_iso": [
+        "1882-10-03"
+      ],
+      "ark_id": "rf564789j",
+      "page_count": 9,
+      "char_count_actual": 447240,
+      "word_count": 76621,
+      "total_tokens": 99607,
+      "tokens_per_page": 11067.4,
+      "chars_per_page": 49693.3,
+      "words_per_page": 8513.4
+    },
+    {
+      "collection": "Boston_Evening_Transcript",
+      "year": 1903,
+      "issue_date": "December 29, 1903",
+      "date_iso": [
+        "1903-12-29"
+      ],
+      "ark_id": "z029tj37h",
+      "page_count": 15,
+      "char_count_actual": 596099,
+      "word_count": 104320,
+      "total_tokens": 135616,
+      "tokens_per_page": 9041.1,
+      "chars_per_page": 39739.9,
+      "words_per_page": 6954.7
+    },
+    {
+      "collection": "Boston_Evening_Transcript",
+      "year": 1904,
+      "issue_date": "June 20, 1904",
+      "date_iso": [
+        "1904-06-20"
+      ],
+      "ark_id": "zg650328j",
+      "page_count": 14,
+      "char_count_actual": 614431,
+      "word_count": 107067,
+      "total_tokens": 139187,
+      "tokens_per_page": 9941.9,
+      "chars_per_page": 43887.9,
+      "words_per_page": 7647.6
+    },
+    {
+      "collection": "Boston_Evening_Transcript",
+      "year": 1905,
+      "issue_date": "January 06, 1905",
+      "date_iso": [
+        "1905-01-06"
+      ],
+      "ark_id": "jh3487628",
+      "page_count": 15,
+      "char_count_actual": 622513,
+      "word_count": 108518,
+      "total_tokens": 141073,
+      "tokens_per_page": 9404.9,
+      "chars_per_page": 41500.9,
+      "words_per_page": 7234.5
+    },
+    {
+      "collection": "Boston_Evening_Transcript",
+      "year": 1906,
+      "issue_date": "April 09, 1906",
+      "date_iso": [
+        "1906-04-09"
+      ],
+      "ark_id": "r7822006b",
+      "page_count": 15,
+      "char_count_actual": 638437,
+      "word_count": 110510,
+      "total_tokens": 143663,
+      "tokens_per_page": 9577.5,
+      "chars_per_page": 42562.5,
+      "words_per_page": 7367.3
+    },
+    {
+      "collection": "Boston_Evening_Transcript",
+      "year": 1907,
+      "issue_date": "September 17, 1907",
+      "date_iso": [
+        "1907-09-17"
+      ],
+      "ark_id": "3f466p72n",
+      "page_count": 15,
+      "char_count_actual": 658356,
+      "word_count": 115142,
+      "total_tokens": 149684,
+      "tokens_per_page": 9978.9,
+      "chars_per_page": 43890.4,
+      "words_per_page": 7676.1
+    },
+    {
+      "collection": "Boston_Evening_Transcript",
+      "year": 1908,
+      "issue_date": "June 30, 1908",
+      "date_iso": [
+        "1908-06-30"
+      ],
+      "ark_id": "st74jn93d",
+      "page_count": 13,
+      "char_count_actual": 534703,
+      "word_count": 94079,
+      "total_tokens": 122302,
+      "tokens_per_page": 9407.8,
+      "chars_per_page": 41131.0,
+      "words_per_page": 7236.8
+    },
+    {
+      "collection": "Boston_Evening_Transcript",
+      "year": 1909,
+      "issue_date": "June 22, 1909",
+      "date_iso": [
+        "1909-06-22"
+      ],
+      "ark_id": "7653cx33m",
+      "page_count": 15,
+      "char_count_actual": 630694,
+      "word_count": 111113,
+      "total_tokens": 144446,
+      "tokens_per_page": 9629.7,
+      "chars_per_page": 42046.3,
+      "words_per_page": 7407.5
+    },
+    {
+      "collection": "Boston_Evening_Transcript",
+      "year": 1910,
+      "issue_date": "April 07, 1910",
+      "date_iso": [
+        "1910-04-07"
+      ],
+      "ark_id": "9p295723r",
+      "page_count": 15,
+      "char_count_actual": 595787,
+      "word_count": 103540,
+      "total_tokens": 134602,
+      "tokens_per_page": 8973.5,
+      "chars_per_page": 39719.1,
+      "words_per_page": 6902.7
+    },
+    {
+      "collection": "Boston_Evening_Transcript",
+      "year": 1911,
+      "issue_date": "May 15, 1911",
+      "date_iso": [
+        "1911-05-15"
+      ],
+      "ark_id": "wp98fh54z",
+      "page_count": 17,
+      "char_count_actual": 732931,
+      "word_count": 128017,
+      "total_tokens": 166422,
+      "tokens_per_page": 9789.5,
+      "chars_per_page": 43113.6,
+      "words_per_page": 7530.4
+    },
+    {
+      "collection": "Boston_Evening_Transcript",
+      "year": 1912,
+      "issue_date": "July 29, 1912",
+      "date_iso": [
+        "1912-07-29"
+      ],
+      "ark_id": "ws85gg629",
+      "page_count": 13,
+      "char_count_actual": 550818,
+      "word_count": 95830,
+      "total_tokens": 124579,
+      "tokens_per_page": 9583.0,
+      "chars_per_page": 42370.6,
+      "words_per_page": 7371.5
+    },
+    {
+      "collection": "Boston_Evening_Transcript",
+      "year": 1913,
+      "issue_date": "March 06, 1913",
+      "date_iso": [
+        "1913-03-06"
+      ],
+      "ark_id": "2r370h16v",
+      "page_count": 15,
+      "char_count_actual": 604916,
+      "word_count": 103491,
+      "total_tokens": 134538,
+      "tokens_per_page": 8969.2,
+      "chars_per_page": 40327.7,
+      "words_per_page": 6899.4
+    },
+    {
+      "collection": "Boston_Evening_Transcript",
+      "year": 1914,
+      "issue_date": "February 27, 1914",
+      "date_iso": [
+        "1914-02-27"
+      ],
+      "ark_id": "gm80pf736",
+      "page_count": 13,
+      "char_count_actual": 489462,
+      "word_count": 85035,
+      "total_tokens": 110545,
+      "tokens_per_page": 8503.5,
+      "chars_per_page": 37650.9,
+      "words_per_page": 6541.2
+    },
+    {
+      "collection": "Boston_Evening_Transcript",
+      "year": 1915,
+      "issue_date": "August 16, 1915",
+      "date_iso": [
+        "1915-08-16"
+      ],
+      "ark_id": "98811c076",
+      "page_count": 13,
+      "char_count_actual": 502670,
+      "word_count": 86935,
+      "total_tokens": 113015,
+      "tokens_per_page": 8693.5,
+      "chars_per_page": 38666.9,
+      "words_per_page": 6687.3
+    },
+    {
+      "collection": "Boston_Evening_Transcript",
+      "year": 1916,
+      "issue_date": "February 28, 1916",
+      "date_iso": [
+        "1916-02-28"
+      ],
+      "ark_id": "bv73h429k",
+      "page_count": 17,
+      "char_count_actual": 441633,
+      "word_count": 102187,
+      "total_tokens": 132843,
+      "tokens_per_page": 7814.3,
+      "chars_per_page": 25978.4,
+      "words_per_page": 6011.0
+    },
+    {
+      "collection": "Boston_Evening_Transcript",
+      "year": 1917,
+      "issue_date": "August 08, 1917",
+      "date_iso": [
+        "1917-08-08"
+      ],
+      "ark_id": "k356fq231",
+      "page_count": 25,
+      "char_count_actual": 865706,
+      "word_count": 179144,
+      "total_tokens": 232887,
+      "tokens_per_page": 9315.5,
+      "chars_per_page": 34628.2,
+      "words_per_page": 7165.8
+    },
+    {
+      "collection": "Boston_Evening_Transcript",
+      "year": 1918,
+      "issue_date": "August 29, 1918",
+      "date_iso": [
+        "1918-08-29"
+      ],
+      "ark_id": "7940dk19k",
+      "page_count": 13,
+      "char_count_actual": 201597,
+      "word_count": 45575,
+      "total_tokens": 59247,
+      "tokens_per_page": 4557.5,
+      "chars_per_page": 15507.5,
+      "words_per_page": 3505.8
+    },
+    {
+      "collection": "Boston_Evening_Transcript",
+      "year": 1919,
+      "issue_date": "June 13, 1919",
+      "date_iso": [
+        "1919-06-13"
+      ],
+      "ark_id": "rb692z93f",
+      "page_count": 17,
+      "char_count_actual": 66989,
+      "word_count": 16857,
+      "total_tokens": 21914,
+      "tokens_per_page": 1289.1,
+      "chars_per_page": 3940.5,
+      "words_per_page": 991.6
+    },
+    {
+      "collection": "Boston_Evening_Transcript",
+      "year": 1920,
+      "issue_date": "January 29, 1920",
+      "date_iso": [
+        "1920-01-29"
+      ],
+      "ark_id": "b5649f83v",
+      "page_count": 21,
+      "char_count_actual": 92338,
+      "word_count": 23379,
+      "total_tokens": 30392,
+      "tokens_per_page": 1447.2,
+      "chars_per_page": 4397.0,
+      "words_per_page": 1113.3
+    },
+    {
+      "collection": "Boston_Evening_Transcript",
+      "year": 1921,
+      "issue_date": "October 10, 1921",
+      "date_iso": [
+        "1921-10-10"
+      ],
+      "ark_id": "dn402m42q",
+      "page_count": 21,
+      "char_count_actual": 774180,
+      "word_count": 145305,
+      "total_tokens": 188896,
+      "tokens_per_page": 8995.0,
+      "chars_per_page": 36865.7,
+      "words_per_page": 6919.3
+    },
+    {
+      "collection": "Boston_Evening_Transcript",
+      "year": 1922,
+      "issue_date": "November 27, 1922",
+      "date_iso": [
+        "1922-11-27"
+      ],
+      "ark_id": "69704d38n",
+      "page_count": 25,
+      "char_count_actual": 349532,
+      "word_count": 84116,
+      "total_tokens": 109350,
+      "tokens_per_page": 4374.0,
+      "chars_per_page": 13981.3,
+      "words_per_page": 3364.6
+    },
+    {
+      "collection": "Boston_Evening_Transcript",
+      "year": 1923,
+      "issue_date": "March 19, 1923",
+      "date_iso": [
+        "1923-03-19"
+      ],
+      "ark_id": "4q77m491n",
+      "page_count": 21,
+      "char_count_actual": 349581,
+      "word_count": 86829,
+      "total_tokens": 112877,
+      "tokens_per_page": 5375.1,
+      "chars_per_page": 16646.7,
+      "words_per_page": 4134.7
+    },
+    {
+      "collection": "Boston_Evening_Transcript",
+      "year": 1924,
+      "issue_date": "April 24, 1924",
+      "date_iso": [
+        "1924-04-24"
+      ],
+      "ark_id": "31982z24x",
+      "page_count": 25,
+      "char_count_actual": 844892,
+      "word_count": 153941,
+      "total_tokens": 200123,
+      "tokens_per_page": 8004.9,
+      "chars_per_page": 33795.7,
+      "words_per_page": 6157.6
+    },
+    {
+      "collection": "Boston_Evening_Transcript",
+      "year": 1925,
+      "issue_date": "February 18, 1925",
+      "date_iso": [
+        "1925-02-18"
+      ],
+      "ark_id": "n2972d87c",
+      "page_count": 33,
+      "char_count_actual": 1131839,
+      "word_count": 199850,
+      "total_tokens": 259805,
+      "tokens_per_page": 7872.9,
+      "chars_per_page": 34298.2,
+      "words_per_page": 6056.1
+    },
+    {
+      "collection": "Boston_Evening_Transcript",
+      "year": 1926,
+      "issue_date": "December 07, 1926",
+      "date_iso": [
+        "1926-12-07"
+      ],
+      "ark_id": "8s45w100n",
+      "page_count": 29,
+      "char_count_actual": 859662,
+      "word_count": 160257,
+      "total_tokens": 208334,
+      "tokens_per_page": 7183.9,
+      "chars_per_page": 29643.5,
+      "words_per_page": 5526.1
+    },
+    {
+      "collection": "Boston_Evening_Transcript",
+      "year": 1927,
+      "issue_date": "July 02, 1927",
+      "date_iso": [
+        "1927-07-02"
+      ],
+      "ark_id": "00004t140",
+      "page_count": 57,
+      "char_count_actual": 1843378,
+      "word_count": 323453,
+      "total_tokens": 420488,
+      "tokens_per_page": 7377.0,
+      "chars_per_page": 32340.0,
+      "words_per_page": 5674.6
+    },
+    {
+      "collection": "Boston_Evening_Transcript",
+      "year": 1928,
+      "issue_date": "August 11, 1928",
+      "date_iso": [
+        "1928-08-11"
+      ],
+      "ark_id": "k356fx40x",
+      "page_count": 61,
+      "char_count_actual": 1680126,
+      "word_count": 294625,
+      "total_tokens": 383012,
+      "tokens_per_page": 6278.9,
+      "chars_per_page": 27543.0,
+      "words_per_page": 4829.9
+    },
+    {
+      "collection": "Boston_Evening_Transcript",
+      "year": 1929,
+      "issue_date": "December 13, 1929",
+      "date_iso": [
+        "1929-12-13"
+      ],
+      "ark_id": "hx123585m",
+      "page_count": 25,
+      "char_count_actual": 750124,
+      "word_count": 138605,
+      "total_tokens": 180186,
+      "tokens_per_page": 7207.4,
+      "chars_per_page": 30005.0,
+      "words_per_page": 5544.2
+    },
+    {
+      "collection": "Boston_Evening_Transcript",
+      "year": 1930,
+      "issue_date": "April 30, 1930",
+      "date_iso": [
+        "1930-04-30"
+      ],
+      "ark_id": "1z40rk47k",
+      "page_count": 47,
+      "char_count_actual": 1236243,
+      "word_count": 249420,
+      "total_tokens": 324246,
+      "tokens_per_page": 6898.9,
+      "chars_per_page": 26303.0,
+      "words_per_page": 5306.8
+    },
+    {
+      "collection": "Boston_Evening_Transcript",
+      "year": 1931,
+      "issue_date": "February 13, 1931",
+      "date_iso": [
+        "1931-02-13"
+      ],
+      "ark_id": "7s75k476b",
+      "page_count": 21,
+      "char_count_actual": 722549,
+      "word_count": 148456,
+      "total_tokens": 192992,
+      "tokens_per_page": 9190.1,
+      "chars_per_page": 34407.1,
+      "words_per_page": 7069.3
+    },
+    {
+      "collection": "Boston_Evening_Transcript",
+      "year": 1932,
+      "issue_date": "January 28, 1932",
+      "date_iso": [
+        "1932-01-28"
+      ],
+      "ark_id": "qb98s540d",
+      "page_count": 25,
+      "char_count_actual": 825028,
+      "word_count": 148938,
+      "total_tokens": 193619,
+      "tokens_per_page": 7744.8,
+      "chars_per_page": 33001.1,
+      "words_per_page": 5957.5
+    },
+    {
+      "collection": "Boston_Evening_Transcript",
+      "year": 1933,
+      "issue_date": "May 17, 1933",
+      "date_iso": [
+        "1933-05-17"
+      ],
+      "ark_id": "z029tw49c",
+      "page_count": 29,
+      "char_count_actual": 968240,
+      "word_count": 193256,
+      "total_tokens": 251232,
+      "tokens_per_page": 8663.2,
+      "chars_per_page": 33387.6,
+      "words_per_page": 6664.0
+    },
+    {
+      "collection": "Boston_Evening_Transcript",
+      "year": 1934,
+      "issue_date": "June 27, 1934",
+      "date_iso": [
+        "1934-06-27"
+      ],
+      "ark_id": "8c97rj34v",
+      "page_count": 29,
+      "char_count_actual": 590596,
+      "word_count": 140952,
+      "total_tokens": 183237,
+      "tokens_per_page": 6318.5,
+      "chars_per_page": 20365.4,
+      "words_per_page": 4860.4
+    },
+    {
+      "collection": "Boston_Evening_Transcript",
+      "year": 1935,
+      "issue_date": "February 19, 1935",
+      "date_iso": [
+        "1935-02-19"
+      ],
+      "ark_id": "cf95q659f",
+      "page_count": 21,
+      "char_count_actual": 456186,
+      "word_count": 115616,
+      "total_tokens": 150300,
+      "tokens_per_page": 7157.1,
+      "chars_per_page": 21723.1,
+      "words_per_page": 5505.5
+    },
+    {
+      "collection": "Boston_Evening_Transcript",
+      "year": 1936,
+      "issue_date": "May 20, 1936",
+      "date_iso": [
+        "1936-05-20"
+      ],
+      "ark_id": "2r370t366",
+      "page_count": 29,
+      "char_count_actual": 794890,
+      "word_count": 150565,
+      "total_tokens": 195734,
+      "tokens_per_page": 6749.4,
+      "chars_per_page": 27410.0,
+      "words_per_page": 5191.9
+    },
+    {
+      "collection": "Boston_Evening_Transcript",
+      "year": 1937,
+      "issue_date": "February 27, 1937",
+      "date_iso": [
+        "1937-02-27"
+      ],
+      "ark_id": "cj82r347w",
+      "page_count": 45,
+      "char_count_actual": 1364139,
+      "word_count": 251025,
+      "total_tokens": 326332,
+      "tokens_per_page": 7251.8,
+      "chars_per_page": 30314.2,
+      "words_per_page": 5578.3
+    },
+    {
+      "collection": "Boston_Evening_Transcript",
+      "year": 1938,
+      "issue_date": "August 20, 1938",
+      "date_iso": [
+        "1938-08-20"
+      ],
+      "ark_id": "4f16hz876",
+      "page_count": 35,
+      "char_count_actual": 976748,
+      "word_count": 185414,
+      "total_tokens": 241038,
+      "tokens_per_page": 6886.8,
+      "chars_per_page": 27907.1,
+      "words_per_page": 5297.5
+    },
+    {
+      "collection": "Boston_Evening_Transcript",
+      "year": 1939,
+      "issue_date": "June 21, 1939",
+      "date_iso": [
+        "1939-06-21"
+      ],
+      "ark_id": "n5843r63q",
+      "page_count": 21,
+      "char_count_actual": 585222,
+      "word_count": 118740,
+      "total_tokens": 154362,
+      "tokens_per_page": 7350.6,
+      "chars_per_page": 27867.7,
+      "words_per_page": 5654.3
+    },
+    {
+      "collection": "Boston_Evening_Transcript",
+      "year": 1940,
+      "issue_date": "October 04, 1940",
+      "date_iso": [
+        "1940-10-04"
+      ],
+      "ark_id": "8049n433k",
+      "page_count": 19,
+      "char_count_actual": 498510,
+      "word_count": 96440,
+      "total_tokens": 125372,
+      "tokens_per_page": 6598.5,
+      "chars_per_page": 26237.4,
+      "words_per_page": 5075.8
+    },
+    {
+      "collection": "Boston_Evening_Transcript",
+      "year": 1941,
+      "issue_date": "April 05, 1941",
+      "date_iso": [
+        "1941-04-05"
+      ],
+      "ark_id": "34854c880",
+      "page_count": 39,
+      "char_count_actual": 917138,
+      "word_count": 176180,
+      "total_tokens": 229034,
+      "tokens_per_page": 5872.7,
+      "chars_per_page": 23516.4,
+      "words_per_page": 4517.4
+    },
+    {
+      "collection": "The_Boston_Traveler",
+      "year": 1900,
+      "issue_date": "August 11, 1900",
+      "date_iso": [
+        "1900-08-11"
+      ],
+      "ark_id": "31984w64t",
+      "page_count": 11,
+      "char_count_actual": 353116,
+      "word_count": 67983,
+      "total_tokens": 88377,
+      "tokens_per_page": 8034.3,
+      "chars_per_page": 32101.5,
+      "words_per_page": 6180.3
+    },
+    {
+      "collection": "The_Boston_Traveler",
+      "year": 1901,
+      "issue_date": "April 09, 1901",
+      "date_iso": [
+        "1901-04-09"
+      ],
+      "ark_id": "69705803w",
+      "page_count": 9,
+      "char_count_actual": 300477,
+      "word_count": 53695,
+      "total_tokens": 69803,
+      "tokens_per_page": 7755.9,
+      "chars_per_page": 33386.3,
+      "words_per_page": 5966.1
+    },
+    {
+      "collection": "The_Boston_Traveler",
+      "year": 1902,
+      "issue_date": "August 16, 1902",
+      "date_iso": [
+        "1902-08-16"
+      ],
+      "ark_id": "6d5767264",
+      "page_count": 11,
+      "char_count_actual": 322017,
+      "word_count": 60830,
+      "total_tokens": 79079,
+      "tokens_per_page": 7189.0,
+      "chars_per_page": 29274.3,
+      "words_per_page": 5530.0
+    },
+    {
+      "collection": "The_Boston_Traveler",
+      "year": 1903,
+      "issue_date": "August 07, 1903",
+      "date_iso": [
+        "1903-08-07"
+      ],
+      "ark_id": "w3769f91b",
+      "page_count": 9,
+      "char_count_actual": 231789,
+      "word_count": 41851,
+      "total_tokens": 54406,
+      "tokens_per_page": 6045.1,
+      "chars_per_page": 25754.3,
+      "words_per_page": 4650.1
+    },
+    {
+      "collection": "The_Boston_Traveler",
+      "year": 1904,
+      "issue_date": "May 09, 1904",
+      "date_iso": [
+        "1904-05-09"
+      ],
+      "ark_id": "df662m188",
+      "page_count": 9,
+      "char_count_actual": 304955,
+      "word_count": 53996,
+      "total_tokens": 70194,
+      "tokens_per_page": 7799.3,
+      "chars_per_page": 33883.9,
+      "words_per_page": 5999.6
+    },
+    {
+      "collection": "The_Boston_Traveler",
+      "year": 1905,
+      "issue_date": "June 13, 1905",
+      "date_iso": [
+        "1905-06-13"
+      ],
+      "ark_id": "ww72jj84s",
+      "page_count": 11,
+      "char_count_actual": 340257,
+      "word_count": 60555,
+      "total_tokens": 78721,
+      "tokens_per_page": 7156.5,
+      "chars_per_page": 30932.5,
+      "words_per_page": 5505.0
+    },
+    {
+      "collection": "The_Boston_Traveler",
+      "year": 1906,
+      "issue_date": "February 12, 1906",
+      "date_iso": [
+        "1906-02-12"
+      ],
+      "ark_id": "tx31xt12j",
+      "page_count": 12,
+      "char_count_actual": 359986,
+      "word_count": 67482,
+      "total_tokens": 87726,
+      "tokens_per_page": 7310.5,
+      "chars_per_page": 29998.8,
+      "words_per_page": 5623.5
+    },
+    {
+      "collection": "The_Boston_Traveler",
+      "year": 1907,
+      "issue_date": "April 15, 1907",
+      "date_iso": [
+        "1907-04-15"
+      ],
+      "ark_id": "3t94d1749",
+      "page_count": 11,
+      "char_count_actual": 352784,
+      "word_count": 62693,
+      "total_tokens": 81500,
+      "tokens_per_page": 7409.1,
+      "chars_per_page": 32071.3,
+      "words_per_page": 5699.4
+    },
+    {
+      "collection": "The_Boston_Traveler",
+      "year": 1908,
+      "issue_date": "November 07, 1908",
+      "date_iso": [
+        "1908-11-07"
+      ],
+      "ark_id": "34855t249",
+      "page_count": 11,
+      "char_count_actual": 275705,
+      "word_count": 49822,
+      "total_tokens": 64768,
+      "tokens_per_page": 5888.0,
+      "chars_per_page": 25064.1,
+      "words_per_page": 4529.3
+    },
+    {
+      "collection": "The_Boston_Traveler",
+      "year": 1909,
+      "issue_date": "May 29, 1909",
+      "date_iso": [
+        "1909-05-29"
+      ],
+      "ark_id": "7h14j0982",
+      "page_count": 11,
+      "char_count_actual": 269787,
+      "word_count": 49403,
+      "total_tokens": 64223,
+      "tokens_per_page": 5838.5,
+      "chars_per_page": 24526.1,
+      "words_per_page": 4491.2
+    },
+    {
+      "collection": "The_Boston_Traveler",
+      "year": 1910,
+      "issue_date": "April 11, 1910",
+      "date_iso": [
+        "1910-04-11"
+      ],
+      "ark_id": "6m318375z",
+      "page_count": 13,
+      "char_count_actual": 412378,
+      "word_count": 73505,
+      "total_tokens": 95556,
+      "tokens_per_page": 7350.5,
+      "chars_per_page": 31721.4,
+      "words_per_page": 5654.2
+    },
+    {
+      "collection": "The_Boston_Traveler",
+      "year": 1911,
+      "issue_date": "October 10, 1911",
+      "date_iso": [
+        "1911-10-10"
+      ],
+      "ark_id": "fb49bf42q",
+      "page_count": 11,
+      "char_count_actual": 212908,
+      "word_count": 38280,
+      "total_tokens": 49764,
+      "tokens_per_page": 4524.0,
+      "chars_per_page": 19355.3,
+      "words_per_page": 3480.0
+    },
+    {
+      "collection": "The_Boston_Traveler",
+      "year": 1912,
+      "issue_date": "April 24, 1912",
+      "date_iso": [
+        "1912-04-24"
+      ],
+      "ark_id": "nk328j666",
+      "page_count": 14,
+      "char_count_actual": 333379,
+      "word_count": 59733,
+      "total_tokens": 77652,
+      "tokens_per_page": 5546.6,
+      "chars_per_page": 23812.8,
+      "words_per_page": 4266.6
+    },
+    {
+      "collection": "The_Boston_Traveler",
+      "year": 1914,
+      "issue_date": "July 30, 1914",
+      "date_iso": [
+        "1914-07-30"
+      ],
+      "ark_id": "1n79qg323",
+      "page_count": 15,
+      "char_count_actual": 383798,
+      "word_count": 68627,
+      "total_tokens": 89215,
+      "tokens_per_page": 5947.7,
+      "chars_per_page": 25586.5,
+      "words_per_page": 4575.1
+    },
+    {
+      "collection": "The_Boston_Traveler",
+      "year": 1915,
+      "issue_date": "December 04, 1915",
+      "date_iso": [
+        "1915-12-04"
+      ],
+      "ark_id": "pz50q808m",
+      "page_count": 15,
+      "char_count_actual": 426795,
+      "word_count": 77718,
+      "total_tokens": 101033,
+      "tokens_per_page": 6735.5,
+      "chars_per_page": 28453.0,
+      "words_per_page": 5181.2
+    },
+    {
+      "collection": "The_Boston_Traveler",
+      "year": 1916,
+      "issue_date": "May 11, 1916",
+      "date_iso": [
+        "1916-05-11"
+      ],
+      "ark_id": "61092p19q",
+      "page_count": 17,
+      "char_count_actual": 421377,
+      "word_count": 76988,
+      "total_tokens": 100084,
+      "tokens_per_page": 5887.3,
+      "chars_per_page": 24786.9,
+      "words_per_page": 4528.7
+    },
+    {
+      "collection": "The_Boston_Traveler",
+      "year": 1917,
+      "issue_date": "July 18, 1917",
+      "date_iso": [
+        "1917-07-18"
+      ],
+      "ark_id": "w663bh23g",
+      "page_count": 13,
+      "char_count_actual": 282605,
+      "word_count": 51302,
+      "total_tokens": 66692,
+      "tokens_per_page": 5130.2,
+      "chars_per_page": 21738.8,
+      "words_per_page": 3946.3
+    },
+    {
+      "collection": "The_Boston_Traveler",
+      "year": 1918,
+      "issue_date": "February 04, 1918",
+      "date_iso": [
+        "1918-02-04"
+      ],
+      "ark_id": "td96sh76t",
+      "page_count": 13,
+      "char_count_actual": 331046,
+      "word_count": 58888,
+      "total_tokens": 76554,
+      "tokens_per_page": 5888.8,
+      "chars_per_page": 25465.1,
+      "words_per_page": 4529.8
+    },
+    {
+      "collection": "The_Boston_Traveler",
+      "year": 1919,
+      "issue_date": "May 19, 1919",
+      "date_iso": [
+        "1919-05-19"
+      ],
+      "ark_id": "mk61zx840",
+      "page_count": 19,
+      "char_count_actual": 515899,
+      "word_count": 93134,
+      "total_tokens": 121074,
+      "tokens_per_page": 6372.3,
+      "chars_per_page": 27152.6,
+      "words_per_page": 4901.8
+    },
+    {
+      "collection": "The_Boston_Traveler",
+      "year": 1920,
+      "issue_date": "January 21, 1920",
+      "date_iso": [
+        "1920-01-21"
+      ],
+      "ark_id": "xg94r536k",
+      "page_count": 19,
+      "char_count_actual": 417026,
+      "word_count": 73587,
+      "total_tokens": 95663,
+      "tokens_per_page": 5034.9,
+      "chars_per_page": 21948.7,
+      "words_per_page": 3873.0
+    },
+    {
+      "collection": "The_Boston_Traveler",
+      "year": 1921,
+      "issue_date": "July 13, 1921",
+      "date_iso": [
+        "1921-07-13"
+      ],
+      "ark_id": "8c97t5509",
+      "page_count": 21,
+      "char_count_actual": 449594,
+      "word_count": 80870,
+      "total_tokens": 105131,
+      "tokens_per_page": 5006.2,
+      "chars_per_page": 21409.2,
+      "words_per_page": 3851.0
+    },
+    {
+      "collection": "The_Boston_Traveler",
+      "year": 1922,
+      "issue_date": "September 02, 1922",
+      "date_iso": [
+        "1922-09-02"
+      ],
+      "ark_id": "1831m122c",
+      "page_count": 17,
+      "char_count_actual": 436053,
+      "word_count": 76683,
+      "total_tokens": 99687,
+      "tokens_per_page": 5863.9,
+      "chars_per_page": 25650.2,
+      "words_per_page": 4510.8
+    },
+    {
+      "collection": "The_Boston_Traveler",
+      "year": 1923,
+      "issue_date": "June 13, 1923",
+      "date_iso": [
+        "1923-06-13"
+      ],
+      "ark_id": "x633nh13h",
+      "page_count": 29,
+      "char_count_actual": 608033,
+      "word_count": 106984,
+      "total_tokens": 139079,
+      "tokens_per_page": 4795.8,
+      "chars_per_page": 20966.7,
+      "words_per_page": 3689.1
+    },
+    {
+      "collection": "The_Boston_Traveler",
+      "year": 1924,
+      "issue_date": "February 08, 1924",
+      "date_iso": [
+        "1924-02-08"
+      ],
+      "ark_id": "0c48b1872",
+      "page_count": 32,
+      "char_count_actual": 627038,
+      "word_count": 112559,
+      "total_tokens": 146326,
+      "tokens_per_page": 4572.7,
+      "chars_per_page": 19594.9,
+      "words_per_page": 3517.5
+    },
+    {
+      "collection": "The_Boston_Traveler",
+      "year": 1925,
+      "issue_date": "May 12, 1925",
+      "date_iso": [
+        "1925-05-12"
+      ],
+      "ark_id": "wh24f8067",
+      "page_count": 31,
+      "char_count_actual": 632366,
+      "word_count": 111704,
+      "total_tokens": 145215,
+      "tokens_per_page": 4684.4,
+      "chars_per_page": 20398.9,
+      "words_per_page": 3603.4
+    },
+    {
+      "collection": "The_Boston_Traveler",
+      "year": 1926,
+      "issue_date": "December 17, 1926",
+      "date_iso": [
+        "1926-12-17"
+      ],
+      "ark_id": "wh24f931s",
+      "page_count": 45,
+      "char_count_actual": 748792,
+      "word_count": 131178,
+      "total_tokens": 170531,
+      "tokens_per_page": 3789.6,
+      "chars_per_page": 16639.8,
+      "words_per_page": 2915.1
+    },
+    {
+      "collection": "The_Boston_Traveler",
+      "year": 1927,
+      "issue_date": "July 15, 1927",
+      "date_iso": [
+        "1927-07-15"
+      ],
+      "ark_id": "b277bb19p",
+      "page_count": 25,
+      "char_count_actual": 592615,
+      "word_count": 108415,
+      "total_tokens": 140939,
+      "tokens_per_page": 5637.6,
+      "chars_per_page": 23704.6,
+      "words_per_page": 4336.6
+    },
+    {
+      "collection": "The_Boston_Traveler",
+      "year": 1928,
+      "issue_date": "May 10, 1928",
+      "date_iso": [
+        "1928-05-10"
+      ],
+      "ark_id": "1n79qn04z",
+      "page_count": 39,
+      "char_count_actual": 763503,
+      "word_count": 137884,
+      "total_tokens": 179249,
+      "tokens_per_page": 4596.1,
+      "chars_per_page": 19577.0,
+      "words_per_page": 3535.5
+    },
+    {
+      "collection": "The_Boston_Traveler",
+      "year": 1929,
+      "issue_date": "November 04, 1929",
+      "date_iso": [
+        "1929-11-04"
+      ],
+      "ark_id": "0g35c062v",
+      "page_count": 45,
+      "char_count_actual": 882809,
+      "word_count": 161686,
+      "total_tokens": 210191,
+      "tokens_per_page": 4670.9,
+      "chars_per_page": 19618.0,
+      "words_per_page": 3593.0
+    },
+    {
+      "collection": "The_Boston_Traveler",
+      "year": 1930,
+      "issue_date": "August 30, 1930",
+      "date_iso": [
+        "1930-08-30"
+      ],
+      "ark_id": "g158k430n",
+      "page_count": 21,
+      "char_count_actual": 477149,
+      "word_count": 83573,
+      "total_tokens": 108644,
+      "tokens_per_page": 5173.5,
+      "chars_per_page": 22721.4,
+      "words_per_page": 3979.7
+    },
+    {
+      "collection": "The_Boston_Traveler",
+      "year": 1931,
+      "issue_date": "October 08, 1931",
+      "date_iso": [
+        "1931-10-08"
+      ],
+      "ark_id": "s465d358g",
+      "page_count": 37,
+      "char_count_actual": 681449,
+      "word_count": 121780,
+      "total_tokens": 158314,
+      "tokens_per_page": 4278.8,
+      "chars_per_page": 18417.5,
+      "words_per_page": 3291.4
+    },
+    {
+      "collection": "The_Boston_Traveler",
+      "year": 1932,
+      "issue_date": "March 29, 1932",
+      "date_iso": [
+        "1932-03-29"
+      ],
+      "ark_id": "x346mr575",
+      "page_count": 29,
+      "char_count_actual": 640351,
+      "word_count": 115715,
+      "total_tokens": 150429,
+      "tokens_per_page": 5187.2,
+      "chars_per_page": 22081.1,
+      "words_per_page": 3990.2
+    },
+    {
+      "collection": "The_Boston_Traveler",
+      "year": 1933,
+      "issue_date": "June 12, 1933",
+      "date_iso": [
+        "1933-06-12"
+      ],
+      "ark_id": "8p58wz96c",
+      "page_count": 31,
+      "char_count_actual": 704473,
+      "word_count": 134312,
+      "total_tokens": 174605,
+      "tokens_per_page": 5632.4,
+      "chars_per_page": 22724.9,
+      "words_per_page": 4332.6
+    },
+    {
+      "collection": "The_Boston_Traveler",
+      "year": 1934,
+      "issue_date": "March 27, 1934",
+      "date_iso": [
+        "1934-03-27"
+      ],
+      "ark_id": "x920pm33g",
+      "page_count": 35,
+      "char_count_actual": 707278,
+      "word_count": 128296,
+      "total_tokens": 166784,
+      "tokens_per_page": 4765.3,
+      "chars_per_page": 20207.9,
+      "words_per_page": 3665.6
+    },
+    {
+      "collection": "The_Boston_Traveler",
+      "year": 1935,
+      "issue_date": "May 31, 1935",
+      "date_iso": [
+        "1935-05-31"
+      ],
+      "ark_id": "95942j276",
+      "page_count": 41,
+      "char_count_actual": 750656,
+      "word_count": 137663,
+      "total_tokens": 178961,
+      "tokens_per_page": 4364.9,
+      "chars_per_page": 18308.7,
+      "words_per_page": 3357.6
+    },
+    {
+      "collection": "The_Boston_Traveler",
+      "year": 1936,
+      "issue_date": "October 30, 1936",
+      "date_iso": [
+        "1936-10-30"
+      ],
+      "ark_id": "sj13hn25s",
+      "page_count": 51,
+      "char_count_actual": 802283,
+      "word_count": 156239,
+      "total_tokens": 203110,
+      "tokens_per_page": 3982.5,
+      "chars_per_page": 15731.0,
+      "words_per_page": 3063.5
+    },
+    {
+      "collection": "The_Boston_Traveler",
+      "year": 1937,
+      "issue_date": "June 15, 1937",
+      "date_iso": [
+        "1937-06-15"
+      ],
+      "ark_id": "pn89mv31b",
+      "page_count": 33,
+      "char_count_actual": 570762,
+      "word_count": 111613,
+      "total_tokens": 145096,
+      "tokens_per_page": 4396.8,
+      "chars_per_page": 17295.8,
+      "words_per_page": 3382.2
+    },
+    {
+      "collection": "The_Boston_Traveler",
+      "year": 1938,
+      "issue_date": "May 18, 1938",
+      "date_iso": [
+        "1938-05-18"
+      ],
+      "ark_id": "sx61n749k",
+      "page_count": 33,
+      "char_count_actual": 415247,
+      "word_count": 89691,
+      "total_tokens": 116598,
+      "tokens_per_page": 3533.3,
+      "chars_per_page": 12583.2,
+      "words_per_page": 2717.9
+    },
+    {
+      "collection": "The_Boston_Traveler",
+      "year": 1939,
+      "issue_date": "December 22, 1939",
+      "date_iso": [
+        "1939-12-22"
+      ],
+      "ark_id": "cv43wm357",
+      "page_count": 25,
+      "char_count_actual": 497418,
+      "word_count": 96794,
+      "total_tokens": 125832,
+      "tokens_per_page": 5033.3,
+      "chars_per_page": 19896.7,
+      "words_per_page": 3871.8
+    },
+    {
+      "collection": "The_Boston_Traveler",
+      "year": 1940,
+      "issue_date": "May 08, 1940",
+      "date_iso": [
+        "1940-05-08"
+      ],
+      "ark_id": "x920pp57g",
+      "page_count": 41,
+      "char_count_actual": 606550,
+      "word_count": 126884,
+      "total_tokens": 164949,
+      "tokens_per_page": 4023.1,
+      "chars_per_page": 14793.9,
+      "words_per_page": 3094.7
+    },
+    {
+      "collection": "The_Boston_Traveler",
+      "year": 1946,
+      "issue_date": "June 22, 1946",
+      "date_iso": [
+        "1946-06-22"
+      ],
+      "ark_id": "rv049k11m",
+      "page_count": 13,
+      "char_count_actual": 349223,
+      "word_count": 62673,
+      "total_tokens": 81474,
+      "tokens_per_page": 6267.2,
+      "chars_per_page": 26863.3,
+      "words_per_page": 4821.0
+    }
+  ]
+}
