@@ -1,0 +1,22 @@
+# ─────────────────────────────────────────────────────────────
+# PseudoGT Generation Config
+# BU Spark Student Team — BPL RAG Evaluation Framework
+# ─────────────────────────────────────────────────────────────
+
+# ── Paths ────────────────────────────────────────────────────
+paths:
+  dataset:  "../DataPreprocessing/bpl_clean_dataset.jsonl"
+  queries:  "ww1_ww2_test_queries.jsonl"
+  output:   "ww1_ww2_test_queries_gt.jsonl"
+
+# ── LLM ──────────────────────────────────────────────────────
+llm:
+  model:        "gpt-4o"         # gpt-4o for quality, gpt-4o-mini for cost
+  max_tokens:   1000
+  temperature:  0.2
+
+# ── Retriever ────────────────────────────────────────────────
+retriever:
+  max_records:         5         # top-K records per query
+  text_preview_chars:  5000      # chars of clean_text to search per record
+  excerpt_chars:       2000      # chars of clean_text sent to LLM per record
